@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CloudCopy</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="facebook_app_id">941947429322427</string>
+    <string name="fb_login_protocol_scheme">fb941947429322427</string>
+</resources>
