@@ -12,6 +12,12 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:fadeScrollbars="false">
+
+        <TextView
+            android:id="@+id/tokenResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Firebase token" />
     </ScrollView>
 
 

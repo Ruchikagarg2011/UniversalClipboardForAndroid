@@ -23,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pramod.firebase.services.ClipboardMonitorService;
 
 /**
  * @author Pramod Nanduri
@@ -54,7 +55,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //Ui Components
         setupElements();
+
+        //Start Services
+        startServices();
 
         //Firebase init settings.
         setupFireBase();
@@ -79,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                 loginEmailPassword(email.getText().toString(), password.getText().toString());
             }
         });
+
+    }
+
+    void startServices() {
+        startService(new Intent(this, ClipboardMonitorService.class));
     }
 
     void setupFireBase() {
