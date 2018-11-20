@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.ruchika.device.DeviceActivity;
 
 import org.w3c.dom.Text;
 
@@ -65,7 +66,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FragmentOne();
+                    return new DeviceActivity();
                 case 1:
                     return new FragmentTwo();
             }
