@@ -73,7 +73,6 @@ public class HomeActivity extends AppCompatActivity {
     void writeToDatabase(String value) {
         DatabaseReference dbReference = database.getReference(DEMO_KEY);
         dbReference.setValue(value);
-
     }
 
     void realtimeSync() {

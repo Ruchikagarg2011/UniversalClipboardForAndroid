@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pramod.firebase.R;
+import com.pramod.firebase.storage.DeviceStore;
+
 import android.support.v4.app.Fragment;
 
 import org.json.JSONObject;
@@ -39,8 +41,7 @@ public class DeviceActivity extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                JSONObject obj = (JSONObject)dataSnapshot.getValue();
-                //Device device = Device.fromJSON(obj);
+                DeviceStore devices = DeviceStore.fromObject(dataSnapshot.getValue());
 
             }
 
@@ -61,10 +62,10 @@ public class DeviceActivity extends Fragment {
 
 
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.device_list, container, false);
+        View view = inflater.inflate(R.layout.device_list, container, false);
         deviceCustomAdapter = new DeviceCustomAdapter(this.getActivity(), R.layout.device_details, deviceArray);
-        deviceList =(ListView)view.findViewById(R.id.devicelist);
-       // deviceList.setItemsCanFocus(false);
+        deviceList = (ListView) view.findViewById(R.id.devicelist);
+        // deviceList.setItemsCanFocus(false);
         deviceList.setAdapter(deviceCustomAdapter);
         return view;
     }

@@ -1,11 +1,7 @@
 package com.pramod.firebase.services;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;

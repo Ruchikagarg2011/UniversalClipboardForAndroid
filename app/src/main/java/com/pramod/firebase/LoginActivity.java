@@ -1,5 +1,7 @@
 package com.pramod.firebase;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -89,7 +91,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void startServices() {
-        startService(new Intent(this, ClipboardMonitorService.class));
+        if (!isMyServiceRunning(ClipboardMonitorService.class)) {
+            startService(new Intent(this, ClipboardMonitorService.class));
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i("isMyServiceRunning?", true + "");
+                return true;
+            }
+        }
+        Log.i("isMyServiceRunning?", false + "");
+        return false;
     }
 
     void setupFireBase() {
