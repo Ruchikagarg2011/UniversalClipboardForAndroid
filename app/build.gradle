@@ -38,8 +38,13 @@ dependencies {
     //Firebase Database dependency
     implementation 'com.google.firebase:firebase-database:16.0.4'
 
+    //Firebase FCM
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
     //Facebook dependency
     implementation 'com.facebook.android:facebook-login:4.38.0'
+
+
 
 }
 apply plugin: 'com.google.gms.google-services'
