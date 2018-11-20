@@ -19,9 +19,6 @@ import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.RDBHandler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ClipboardMonitorService extends Service {
 
     ClipboardChangeListener changeListener;
