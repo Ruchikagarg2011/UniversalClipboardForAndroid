@@ -9,9 +9,10 @@
         android:id="@+id/img_device"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/device_monitor"
+        android:src="@drawable/monitor_icon"
         android:layout_centerVertical="true"
-        android:paddingRight="15dp"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp" />
 
     <TextView
         android:id="@+id/device_title"

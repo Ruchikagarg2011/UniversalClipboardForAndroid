@@ -2,16 +2,30 @@ package jai.clipboard;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.R;
+import com.pramod.firebase.storage.ClipHistory;
+import com.pramod.firebase.storage.ClipHistoryStore;
+import com.pramod.firebase.util.RDBHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,31 +33,101 @@ import java.util.ArrayList;
 public class ClipboardDetails extends Fragment {
 
     ListView listView;
+    Parcelable saveList;
     ClipboardAdapter adapter;
-    ArrayList<Clipboard>  clipboard_contents = new ArrayList<Clipboard>();
+    ArrayList<ClipHistory> clipboard_contents = new ArrayList<ClipHistory>();
 
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-    
+
+    String deviceName,clipContents, messageType, timeStamp;
 
     public ClipboardDetails() {
-        // Required empty public constructor
+      //  setupElements();
+        //getElements();
     }
+
+   //private static String key = "history/"+FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private static String key1 = "history";
+
+   /* void setupElements() {
+        ClipHistoryStore clipHistoryStore = new ClipHistoryStore();
+        ClipHistory clipHistory = new ClipHistory("Sumsung","abcd","text",Calendar.getInstance().getTime().toString());
+        ClipHistory clipHistory2 = new ClipHistory("OnePlus","helloWorld","text",Calendar.getInstance().getTime().toString());
+        clipHistoryStore.addClipHistory(clipHistory);
+        clipHistoryStore.addClipHistory(clipHistory2);
+        RDBHandler.getInstance().write(key, clipHistoryStore.getClipContents());
+    }*/
+
+    void getElements(){
+        DatabaseReference dbReference = fdb.getReference(key1);
+
+
+        dbReference.orderByChild("timestamp").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                ClipHistoryStore val = ClipHistoryStore.fromObject(dataSnapshot.getValue());
+                Map<String, ClipHistory> map = val.getClipContents();
+                for (String key : map.keySet()) {
+                    ClipHistory clipHistoryObj = map.get(key);
+                    deviceName = clipHistoryObj.getDeviceName();
+                    clipContents = clipHistoryObj.getClipContent();
+                    messageType = clipHistoryObj.getMessageType();
+                    timeStamp = clipHistoryObj.getTimestamp();
+                    clipboard_contents.add(new ClipHistory(deviceName, clipContents, messageType,timeStamp));
+                }
+                Collections.reverse(clipboard_contents);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                adapter.clear();
+                ClipHistoryStore val = ClipHistoryStore.fromObject(dataSnapshot.getValue());
+                Map<String, ClipHistory> map = val.getClipContents();
+                for (String key : map.keySet()) {
+                    ClipHistory clipHistoryObj = map.get(key);
+                    deviceName = clipHistoryObj.getDeviceName();
+                    clipContents = clipHistoryObj.getClipContent();
+                    messageType = clipHistoryObj.getMessageType();
+                    timeStamp = clipHistoryObj.getTimestamp();
+                    clipboard_contents.add(new ClipHistory(deviceName, clipContents, messageType,timeStamp));
+                }
+                Collections.reverse(clipboard_contents);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-        clipboard_contents.add(new Clipboard("D01","first copy", "text"));
-        clipboard_contents.add(new Clipboard("D02","first copy", "text"));
+            getElements();
 
-        View view = inflater.inflate(R.layout.fragment_clipboard_details, container, false);
-        adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list,clipboard_contents);
+            View view = inflater.inflate(R.layout.fragment_clipboard_details, container, false);
+            adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list, clipboard_contents);
+            listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
+            listView.setAdapter(adapter);
+            return view;
 
-        listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
-        listView.setAdapter(adapter);
-        return view;
     }
+
+
 
 }

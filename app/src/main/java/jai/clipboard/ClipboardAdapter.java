@@ -11,16 +11,17 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.pramod.firebase.R;
+import com.pramod.firebase.storage.ClipHistory;
 
 import java.util.ArrayList;
 
-public class ClipboardAdapter  extends ArrayAdapter<Clipboard> {
+public class ClipboardAdapter  extends ArrayAdapter<ClipHistory> {
 
     Activity context;
     int layoutId;
-    ArrayList<Clipboard> clipContents = new ArrayList<Clipboard>();
+    ArrayList<ClipHistory> clipContents = new ArrayList<ClipHistory>();
 
-    public ClipboardAdapter(Activity context, int layoutId, ArrayList<Clipboard> clipContents) {
+    public ClipboardAdapter(Activity context, int layoutId, ArrayList<ClipHistory> clipContents) {
         super(context, layoutId,clipContents);
         this.context = context;
         this.layoutId = layoutId;
@@ -29,19 +30,9 @@ public class ClipboardAdapter  extends ArrayAdapter<Clipboard> {
 
     public View getView(int position, View view, ViewGroup parent) {
 
-
-//        LayoutInflater inflator = context.getLayoutInflater();
-//        View rowView = inflator.inflate(R.layout.clipboard_list, null, true);
-//
-//        TextView deviceTitleTxtView = (TextView) rowView.findViewById(R.id.device_title);
-//        deviceTitleTxtView.setText(clipObj.getDeviceName());
-//        TextView clipboardContentTxtView = (TextView) rowView.findViewById(R.id.clipboard_content);
-//        clipboardContentTxtView.setText(clipboard.getCopyContent());
-//        return rowView;
-
-
         View row = view;
         ClipboardDetails clipboard = null;
+
 
         if(row == null){
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -55,9 +46,9 @@ public class ClipboardAdapter  extends ArrayAdapter<Clipboard> {
             clipboard =(ClipboardDetails) row.getTag();
         }
 
-        Clipboard clipDetails = clipContents.get(position);
+        ClipHistory clipDetails = clipContents.get(position);
         clipboard.deviceTitleTxtView.setText(clipDetails.getDeviceName());
-        clipboard.clipboardContentTxtView.setText(clipDetails.getCopyContent());
+        clipboard.clipboardContentTxtView.setText(clipDetails.getClipContent());
         return row;
 
     }
