@@ -13,15 +13,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.R;
-
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DeviceCustomAdapter extends ArrayAdapter<Device> {
     Context context;
     int layoutResourceId;
 
     ArrayList<Device> data = new ArrayList<Device>();
+    FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+    private static final String key = "devices/" + FirebaseAuth.getInstance().getUid();
+
 
     public DeviceCustomAdapter(Context context, int layoutResourceId, ArrayList<Device> data) {
         super(context, layoutResourceId, data);
@@ -30,7 +36,7 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         this.data = data;
     }
 
-    public View getView(int position, View view, ViewGroup parent){
+    public View getView(final int position, View view, ViewGroup parent){
         View row = view;
         DeviceDetails details = null;
 
@@ -55,9 +61,14 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    Device device = data.get(position);
+                    device.state = "ON";
                 } else {
                     // The toggle is disabled
+                    Device device = data.get(position);
+                    device.state = "OFF";
                 }
+                notifyDataSetChanged();
             }
         });
 
@@ -68,6 +79,17 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
                 // TODO Auto-generated method stub
                 Log.i("Delete Button Clicked", "**********");
                 Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
+                Device device = data.get(position);
+                DeviceStore storeObject = new DeviceStore();
+                Map<String,Device> map = storeObject.getDevices();
+                String mapKey = device.deviceName;
+                map.remove(mapKey);
+                data.remove(position);
+
+                DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                dbReference.removeValue();
+
+                notifyDataSetChanged();
             }
         });
 
