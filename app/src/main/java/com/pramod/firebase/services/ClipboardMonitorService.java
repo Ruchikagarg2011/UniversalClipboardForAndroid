@@ -43,7 +43,7 @@ public class ClipboardMonitorService extends Service {
         return null;
     }
 
-    String DEMO_KEY = "demoKey2/Itcf3GlE0WW4odnO5YK2JatOZHf2";
+    String DEMO_KEY = "cliphistory/Itcf3GlE0WW4odnO5YK2JatOZHf2";
 
     class ClipboardChangeListener implements ClipboardManager.OnPrimaryClipChangedListener {
 
@@ -53,18 +53,8 @@ public class ClipboardMonitorService extends Service {
             String secondDevice = Build.MODEL + "_ " + Build.BRAND + "_" + Build.ID;
             ClipData data = clipboardManager.getPrimaryClip();
             String text = data.getItemAt(0).getText().toString();
-//            Map<String, Object> obj = new HashMap();
-//            obj.put("supername", "supervalue");
-//            obj.put("dupername", "dupervalue");
-//            obj.put("devicename", new Device("polodevice", "dolodevice"));
-//            obj.put("mydevicename", deviceName);
-//            obj.put("secondDevice", secondDevice);
-//            //obj.put("devicename", new )
 
-            DeviceStore store = new DeviceStore();
-            Device device = new Device("ruchikadevice", "1.2.3.4");
-            store.addDevice(device);
-            RDBHandler.getInstance().write(DEMO_KEY, store.getDevices());
+            //RDBHandler.getInstance().write(DEMO_KEY, store.getDevices());
         }
     }
 
