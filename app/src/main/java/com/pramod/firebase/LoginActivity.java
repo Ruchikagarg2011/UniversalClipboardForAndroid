@@ -26,6 +26,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.pramod.firebase.services.ClipboardMonitorService;
+import com.pramod.firebase.storage.Device;
+import com.pramod.firebase.storage.DeviceStore;
+import com.pramod.firebase.util.KeyStore;
+import com.pramod.firebase.util.RDBHandler;
 
 /**
  * @author Pramod Nanduri
@@ -60,9 +64,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //Ui Components
         setupElements();
-
-        //Start Services
-        startServices();
 
         //Firebase init settings.
         setupFireBase();
@@ -176,11 +177,13 @@ public class LoginActivity extends AppCompatActivity {
             // Sign in success, update UI with the signed-in user's information
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
+            startServices();
             navigateHomePage();
+            DeviceStore.getInstance().storeCurrentDevice();
         } else {
             // If sign in fails, display a message to the user.
             Log.w(TAG, "signInWithEmail:failure", task.getException());
-            Toast.makeText(getApplicationContext(), "Invalid Credentials!", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "Invalid Credentials!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -204,5 +207,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), GlobalHomeActivity.class);
         startActivity(intent);
     }
+
 
 }

@@ -1,5 +1,7 @@
 package com.pramod.firebase.storage;
 
+import com.pramod.firebase.Constants;
+
 import java.util.Map;
 
 public class ClipHistory {
@@ -61,5 +63,19 @@ public class ClipHistory {
         clipContent = map.get("clipContent");
         messageType = map.get("messageType");
         timestamp = map.get("timestamp");
+    }
+
+    public boolean isText() {
+        return getMessageType().equals(Constants.TYPE_TEXT);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        ClipHistory second = (ClipHistory) obj;
+        if (second == null) {
+            return false;
+        }
+        return second.getMessageType().equals(messageType)
+                && second.getClipContent().equals(clipContent);
     }
 }

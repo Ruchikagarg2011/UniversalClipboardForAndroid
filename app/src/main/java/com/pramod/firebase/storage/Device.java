@@ -11,7 +11,7 @@ import java.util.Map;
 public class Device {
     String deviceName;
     String ipName;
-    String state;
+    String state = "1";
 
     public Device(Map<String, String> map) {
         deviceName = map.get("deviceName");
