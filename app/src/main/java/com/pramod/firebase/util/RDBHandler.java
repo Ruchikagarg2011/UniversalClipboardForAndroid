@@ -13,12 +13,10 @@ public class RDBHandler {
         return instance;
     }
 
-
-
-    public void write(String key, String value) {
+    public void write(String key, Object value) {
         DatabaseReference dbReference = database.getReference(key);
         dbReference.setValue(value);
-
     }
+
 
 }

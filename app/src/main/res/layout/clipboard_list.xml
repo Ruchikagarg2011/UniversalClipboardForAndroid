@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="left"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/img_device"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/monitor_icon"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:id="@+id/device_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Device name"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/img_device"/>
+
+    <TextView
+        android:id="@+id/clipboard_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is text view which will contain clipboard contents"
+        android:textSize="20dp"
+        android:layout_toRightOf="@+id/img_device"
+        android:layout_below="@+id/device_title"/>
+
+</RelativeLayout>
