@@ -43,5 +43,9 @@ public class Device {
         this.ipName = ipName;
     }
 
+    public Device() {
+
+    }
+
 
 }

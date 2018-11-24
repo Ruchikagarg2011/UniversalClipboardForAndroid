@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.android.device.DeviceName;
 import com.pramod.firebase.clipboard.ClipboardHandler;
+import com.pramod.firebase.storage.ClipHistory;
+import com.pramod.firebase.storage.ClipHistoryStore;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.RDBHandler;
@@ -43,7 +45,8 @@ public class ClipboardMonitorService extends Service {
         return null;
     }
 
-    String DEMO_KEY = "cliphistory/Itcf3GlE0WW4odnO5YK2JatOZHf2";
+    String DEMO_KEY = "demoKey2/Itcf3GlE0WW4odnO5YK2JatOZHf2";
+    //String DEMO_KEY_CLIP = "demoKey2/Itcf3GlE0WW4odnO5YK2JatOZHf2/History";
 
     class ClipboardChangeListener implements ClipboardManager.OnPrimaryClipChangedListener {
 
@@ -52,9 +55,24 @@ public class ClipboardMonitorService extends Service {
             String deviceName = DeviceName.getDeviceName();
             String secondDevice = Build.MODEL + "_ " + Build.BRAND + "_" + Build.ID;
             ClipData data = clipboardManager.getPrimaryClip();
-            String text = data.getItemAt(0).getText().toString();
+           String text = data.getItemAt(0).getText().toString();
+//            Map<String, Object> obj = new HashMap();
+//            obj.put("supername", "supervalue");
+//            obj.put("dupername", "dupervalue");
+//            obj.put("devicename", new Device("polodevice", "dolodevice"));
+//            obj.put("mydevicename", deviceName);
+//            obj.put("secondDevice", secondDevice);
+//            //obj.put("devicename", new )
 
-            //RDBHandler.getInstance().write(DEMO_KEY, store.getDevices());
+            DeviceStore store = new DeviceStore();
+            Device device = new Device("ruchikadevice", "1.2.3.4");
+            store.addDevice(device);
+            RDBHandler.getInstance().write(DEMO_KEY, store.getDevices());
+
+           /* ClipHistoryStore clipHistoryStore = new ClipHistoryStore();
+            ClipHistory clipHistory = new ClipHistory("Sumsung","abcd","text","one");
+            clipHistoryStore.addClipHistory(clipHistory);
+            RDBHandler.getInstance().write(DEMO_KEY_CLIP, clipHistoryStore.getClipContents());*/
         }
     }
 
@@ -79,12 +97,28 @@ public class ClipboardMonitorService extends Service {
                 DeviceStore val = DeviceStore.fromObject(dataSnapshot.getValue());
                 String value = String.valueOf(dataSnapshot.getValue());
                 ClipboardHandler.setInClipboard(value, getApplicationContext());
-            }
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
+        /*DatabaseReference dbReference2 = database.getReference(DEMO_KEY_CLIP);
+        dbReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ClipHistoryStore val = ClipHistoryStore.fromObject(dataSnapshot.getValue());
+                String value = String.valueOf(dataSnapshot.getValue());
+                ClipboardHandler.setInClipboard(value, getApplicationContext());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
     }
 }

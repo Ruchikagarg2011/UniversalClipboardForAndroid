@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,15 +17,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.pramod.firebase.storage.ClipHistory;
+import com.pramod.firebase.storage.ClipHistoryStore;
+import com.pramod.firebase.util.RDBHandler;
 import com.ruchika.device.DeviceActivity;
 
 import org.w3c.dom.Text;
+
+import jai.clipboard.ClipboardDetails;
 
 public class GlobalHomeActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public static int int_items = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class GlobalHomeActivity extends AppCompatActivity {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
+
+
         setupElements();
     }
 
@@ -52,6 +61,8 @@ public class GlobalHomeActivity extends AppCompatActivity {
                 Log.d(Constants.TAG, token);
             }
         });
+
+
     }
 
     private class MyAdapter extends FragmentPagerAdapter {
@@ -63,12 +74,12 @@ public class GlobalHomeActivity extends AppCompatActivity {
          * Return fragment with respect to Position .
          */
         @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new DeviceActivity();
-                case 1:
-                    return new FragmentTwo();
+
+        public Fragment getItem(int position)
+        {
+            switch (position){
+                case 0 : return new FragmentOne();
+                case 1 : return new ClipboardDetails();
             }
             return null;
         }
@@ -92,4 +103,5 @@ public class GlobalHomeActivity extends AppCompatActivity {
             return null;
         }
     }
+
 }
