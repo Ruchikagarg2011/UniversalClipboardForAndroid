@@ -65,13 +65,11 @@ public class LoginActivity extends AppCompatActivity {
         //Firebase init settings.
         setupFireBase();
 
-/*
         if (firebaseAuth.getCurrentUser() != null) {
             navigateHomePage();
             this.finish();
             return;
         }
-*/
 
         //Ui Components
         setupElements();
@@ -98,9 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 
 
     void setupFireBase() {
