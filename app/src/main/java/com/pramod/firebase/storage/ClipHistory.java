@@ -9,6 +9,8 @@ public class ClipHistory {
     String deviceName;
     String clipContent;
     String messageType;
+    String timestamp;
+
 
     public String getTimestamp() {
         return timestamp;
@@ -18,7 +20,7 @@ public class ClipHistory {
         this.timestamp = timestamp;
     }
 
-    String timestamp;
+
 
     public String getDeviceName() {
         return deviceName;
