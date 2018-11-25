@@ -84,7 +84,7 @@ public class DeviceActivity extends Fragment {
         DatabaseReference dbReference = fdb.getReference(key);
         dbReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)  {
+            public void  onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)  {
                 Log.d("added",dataSnapshot.getValue().toString());
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 Log.d("Ruchika",device.getDeviceName());

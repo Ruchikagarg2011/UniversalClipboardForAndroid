@@ -23,6 +23,10 @@ public class KeyStore {
         return "devices/" + getCurrentUser();
     }
 
+    public static String getDevicesKeyForCurrentDevice(String device) {
+        return "devices/" + getCurrentUser() + "/" + device;
+    }
+
     public static String getClipboardKeyForUser() {
         return "clipboard/" + getCurrentUser();
     }

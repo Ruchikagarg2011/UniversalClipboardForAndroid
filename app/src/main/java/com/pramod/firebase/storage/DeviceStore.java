@@ -39,7 +39,7 @@ public class DeviceStore {
     public void storeCurrentDevice() {
         Device device = new Device(KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
         addDevice(device);
-        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForUser(), device);
+        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(KeyStore.getDeviceName()), device);
     }
 
 }
