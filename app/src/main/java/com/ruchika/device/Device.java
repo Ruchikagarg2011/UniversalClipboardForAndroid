@@ -15,15 +15,15 @@ public class Device {
         state = map.get("state");
     }
 
-    public void setDeviceName(String deviceName){
-        this.deviceName =deviceName;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
-    public void setIpName(String ipName){
-        this.ipName =ipName;
+    public void setIpName(String ipName) {
+        this.ipName = ipName;
     }
 
-    public String getDeviceName(){
+    public String getDeviceName() {
         return deviceName;
     }
 
@@ -31,7 +31,7 @@ public class Device {
         return ipName;
     }
 
-    public Device(String deviceName,String ipName){
+    public Device(String deviceName, String ipName) {
         super();
         this.deviceName = deviceName;
         this.ipName = ipName;

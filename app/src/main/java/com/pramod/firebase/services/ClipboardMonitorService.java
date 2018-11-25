@@ -4,22 +4,25 @@ import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jaredrummler.android.device.DeviceName;
+import com.pramod.firebase.Constants;
 import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.storage.ClipHistory;
-import com.pramod.firebase.storage.ClipHistoryStore;
-import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
+import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
+
+import java.security.Key;
+import java.util.Calendar;
+import java.util.Map;
 
 public class ClipboardMonitorService extends Service {
 
@@ -35,9 +38,11 @@ public class ClipboardMonitorService extends Service {
     void setupElements() {
         changeListener = new ClipboardChangeListener();
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        clipboardManager.addPrimaryClipChangedListener(changeListener);
+        if (clipboardManager != null) {
+            clipboardManager.addPrimaryClipChangedListener(changeListener);
+        }
         database = FirebaseDatabase.getInstance();
-        realtimeSync();
+        monitorFirebaseClipboardChanges();
     }
 
     @Override
@@ -45,34 +50,41 @@ public class ClipboardMonitorService extends Service {
         return null;
     }
 
-    String DEMO_KEY = "demoKey2/Itcf3GlE0WW4odnO5YK2JatOZHf2";
-    //String DEMO_KEY_CLIP = "demoKey2/Itcf3GlE0WW4odnO5YK2JatOZHf2/History";
-
+    /**
+     * When Clipboard is changed on a device , this method gets called.
+     */
     class ClipboardChangeListener implements ClipboardManager.OnPrimaryClipChangedListener {
 
+        /**
+         * Things on this call.
+         * 1. Store entry in KeyStore.getMainClipKey
+         * 2. Udpate device history.
+         * <p>
+         * TODO: Scenario to test when Copy image done through screenshot
+         */
         @Override
         public void onPrimaryClipChanged() {
-            String deviceName = DeviceName.getDeviceName();
-            String secondDevice = Build.MODEL + "_ " + Build.BRAND + "_" + Build.ID;
             ClipData data = clipboardManager.getPrimaryClip();
-           String text = data.getItemAt(0).getText().toString();
-//            Map<String, Object> obj = new HashMap();
-//            obj.put("supername", "supervalue");
-//            obj.put("dupername", "dupervalue");
-//            obj.put("devicename", new Device("polodevice", "dolodevice"));
-//            obj.put("mydevicename", deviceName);
-//            obj.put("secondDevice", secondDevice);
-//            //obj.put("devicename", new )
+            if (data != null) {
+                String text = data.getItemAt(0).getText().toString();
+                saveInFirebase(text, Constants.TYPE_TEXT);
+            }
+        }
+    }
 
-            DeviceStore store = new DeviceStore();
-            Device device = new Device("ruchikadevice", "1.2.3.4");
-            store.addDevice(device);
-            RDBHandler.getInstance().write(DEMO_KEY, store.getDevices());
+    public void saveInFirebase(String text, String messageType) {
+        ClipHistory history = new ClipHistory(
+                KeyStore.getDeviceName(),
+                text,
+                messageType,
+                Calendar.getInstance().getTime().toString()
+        );
 
-           /* ClipHistoryStore clipHistoryStore = new ClipHistoryStore();
-            ClipHistory clipHistory = new ClipHistory("Sumsung","abcd","text","one");
-            clipHistoryStore.addClipHistory(clipHistory);
-            RDBHandler.getInstance().write(DEMO_KEY_CLIP, clipHistoryStore.getClipContents());*/
+        if (!history.equals(lastValue)) {
+            lastValue = history;
+            RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
+            RDBHandler.getInstance().write(KeyStore.getClipboardKeyForCurrentTime(), history);
+            Log.i(Constants.TAG, "Writing to Firebase");
         }
     }
 
@@ -88,37 +100,29 @@ public class ClipboardMonitorService extends Service {
         sendBroadcast(broadcastIntent);
     }
 
+    private static ClipHistory lastValue;
 
-    void realtimeSync() {
-        DatabaseReference dbReference = database.getReference(DEMO_KEY);
+    void monitorFirebaseClipboardChanges() {
+        DatabaseReference dbReference = database.getReference(KeyStore.getMainClipKeyForUser());
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DeviceStore val = DeviceStore.fromObject(dataSnapshot.getValue());
-                String value = String.valueOf(dataSnapshot.getValue());
-                ClipboardHandler.setInClipboard(value, getApplicationContext());
+                if (dataSnapshot.getValue() != null) {
+                    ClipHistory val = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
+                    if (!val.equals(lastValue)) {
+                        if (val.isText()) {
+                            ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
+                        }
+                        //Else handle image.
+                    }
                 }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-        /*DatabaseReference dbReference2 = database.getReference(DEMO_KEY_CLIP);
-        dbReference2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ClipHistoryStore val = ClipHistoryStore.fromObject(dataSnapshot.getValue());
-                String value = String.valueOf(dataSnapshot.getValue());
-                ClipboardHandler.setInClipboard(value, getApplicationContext());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
 
     }
 }

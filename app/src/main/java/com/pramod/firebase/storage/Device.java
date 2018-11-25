@@ -1,6 +1,8 @@
 package com.pramod.firebase.storage;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,12 +11,14 @@ import java.util.Map;
 public class Device {
     String deviceName;
     String ipName;
-    String state;
+    String state = "1";
 
     public Device(Map<String, String> map) {
         deviceName = map.get("deviceName");
         ipName = map.get("ipName");
         state = map.get("state");
+
+
     }
 
     public void setDeviceName(String deviceName) {
