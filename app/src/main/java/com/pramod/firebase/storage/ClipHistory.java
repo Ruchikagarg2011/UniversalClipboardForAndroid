@@ -2,6 +2,8 @@ package com.pramod.firebase.storage;
 
 import com.pramod.firebase.Constants;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class ClipHistory {
@@ -19,8 +21,6 @@ public class ClipHistory {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
-
 
     public String getDeviceName() {
         return deviceName;
@@ -59,6 +59,8 @@ public class ClipHistory {
         messageType = map.get("messageType");
         timestamp = map.get("timestamp");
     }
+
+
 
     public boolean isText() {
         return getMessageType().equals(Constants.TYPE_TEXT);

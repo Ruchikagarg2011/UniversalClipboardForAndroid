@@ -77,8 +77,7 @@ public class ClipboardMonitorService extends Service {
                 KeyStore.getDeviceName(),
                 text,
                 messageType,
-                Calendar.getInstance().getTime().toString()
-        );
+                Calendar.getInstance().getTime().toString()  );
 
         if (!history.equals(lastValue)) {
             lastValue = history;
