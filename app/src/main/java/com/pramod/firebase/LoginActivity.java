@@ -62,11 +62,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Ui Components
-        setupElements();
-
         //Firebase init settings.
         setupFireBase();
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            navigateHomePage();
+            this.finish();
+            return;
+        }
+
+        //Ui Components
+        setupElements();
 
         //Ignore this method call if FB login not needed!
         facebookLogin();
@@ -91,23 +97,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    void startServices() {
-        if (!isMyServiceRunning(ClipboardMonitorService.class)) {
-            startService(new Intent(this, ClipboardMonitorService.class));
-        }
-    }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i("isMyServiceRunning?", true + "");
-                return true;
-            }
-        }
-        Log.i("isMyServiceRunning?", false + "");
-        return false;
-    }
+
+
 
     void setupFireBase() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -177,7 +169,6 @@ public class LoginActivity extends AppCompatActivity {
             // Sign in success, update UI with the signed-in user's information
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            startServices();
             navigateHomePage();
             DeviceStore.getInstance().storeCurrentDevice();
         } else {

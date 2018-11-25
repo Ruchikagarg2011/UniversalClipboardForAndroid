@@ -10,6 +10,7 @@ import com.jaredrummler.android.device.DeviceName;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.Calendar;
 import java.util.Enumeration;
 
 public class KeyStore {
@@ -26,8 +27,16 @@ public class KeyStore {
         return "clipboard/" + getCurrentUser();
     }
 
+    public static String getClipboardHistoryKeyForUser() {
+        return getClipboardKeyForUser() + "/history/";
+    }
+
     public static String getMainClipKeyForUser() {
-        return "clipboard/" + getCurrentUser() + "/mainclipdata/";
+        return getClipboardKeyForUser() + "/mainclipdata/";
+    }
+
+    public static String getClipboardKeyForCurrentTime() {
+        return getClipboardHistoryKeyForUser() + "/" + Calendar.getInstance().getTime().toString();
     }
 
     public static String getDeviceName() {

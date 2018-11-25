@@ -20,6 +20,7 @@ import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
+import java.security.Key;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -79,9 +80,10 @@ public class ClipboardMonitorService extends Service {
                 Calendar.getInstance().getTime().toString()
         );
 
-        if (!lastValue.equals(history)) {
+        if (!history.equals(lastValue)) {
             lastValue = history;
             RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
+            RDBHandler.getInstance().write(KeyStore.getClipboardKeyForCurrentTime(), history);
             Log.i(Constants.TAG, "Writing to Firebase");
         }
     }

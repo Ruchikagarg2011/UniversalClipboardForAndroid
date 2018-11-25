@@ -1,5 +1,8 @@
 package com.pramod.firebase;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -17,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
 import com.pramod.firebase.util.RDBHandler;
@@ -62,7 +66,26 @@ public class GlobalHomeActivity extends AppCompatActivity {
             }
         });
 
+        startServices();
 
+    }
+
+    void startServices() {
+        if (!isMyServiceRunning(ClipboardMonitorService.class)) {
+            startService(new Intent(this, ClipboardMonitorService.class));
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i("isMyServiceRunning?", true + "");
+                return true;
+            }
+        }
+        Log.i("isMyServiceRunning?", false + "");
+        return false;
     }
 
     private class MyAdapter extends FragmentPagerAdapter {
@@ -75,11 +98,12 @@ public class GlobalHomeActivity extends AppCompatActivity {
          */
         @Override
 
-        public Fragment getItem(int position)
-        {
-            switch (position){
-                case 0 : return new FragmentOne();
-                case 1 : return new ClipboardDetails();
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new FragmentOne();
+                case 1:
+                    return new ClipboardDetails();
             }
             return null;
         }

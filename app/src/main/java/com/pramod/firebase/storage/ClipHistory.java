@@ -6,13 +6,6 @@ import java.util.Map;
 
 public class ClipHistory {
 
-    /*String clipData;
-
-    ClipHistory(Map<String, String> map) {
-        this.clipData = map.get("clipData");
-    }*/
-
-
     String deviceName;
     String clipContent;
     String messageType;
