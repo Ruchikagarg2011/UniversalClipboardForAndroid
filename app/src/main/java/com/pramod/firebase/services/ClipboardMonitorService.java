@@ -109,12 +109,16 @@ public class ClipboardMonitorService extends Service {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     ClipHistory val = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
-                    if (!val.equals(lastValue)) {
-                        if (val.isText()) {
-                            ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
-                        }
-                        //Else handle image.
+
+                    //Same device copy and duplicate copy check.
+                    if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
+                        return;
                     }
+                    if (val.isText()) {
+                        ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
+                        lastValue = val;
+                    }
+                    //Else handle image.
                 }
             }
 
