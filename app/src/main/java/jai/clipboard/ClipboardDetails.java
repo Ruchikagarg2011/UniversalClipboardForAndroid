@@ -25,13 +25,14 @@ import com.pramod.firebase.util.RDBHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClipboardDetails extends Fragment {
+public class ClipboardDetails extends Fragment{
 
     ListView listView;
     ClipboardAdapter adapter;
@@ -68,6 +69,7 @@ public class ClipboardDetails extends Fragment {
                     clipboard_contents.remove(0);
                 }
                 clipboard_contents.add(clip);
+                Collections.sort(clipboard_contents);
                 adapter.notifyDataSetChanged();
             }
 
