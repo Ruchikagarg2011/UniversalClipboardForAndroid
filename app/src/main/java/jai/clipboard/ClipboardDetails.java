@@ -25,6 +25,7 @@ import com.pramod.firebase.util.RDBHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +36,7 @@ public class ClipboardDetails extends Fragment {
     ListView listView;
     ClipboardAdapter adapter;
     ArrayList<ClipHistory> clipboard_contents = new ArrayList<ClipHistory>();
+    ArrayList<ClipHistory> clipboard_contents_reverse = new ArrayList<ClipHistory>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
 
     public ClipboardDetails() {
@@ -57,12 +59,15 @@ public class ClipboardDetails extends Fragment {
 
 
         dbReference.orderByKey().limitToLast(5).addChildEventListener(new ChildEventListener() {
+
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 ClipHistory clip = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
+                if(clipboard_contents.size() >= 5){
+                    clipboard_contents.remove(0);
+                }
                 clipboard_contents.add(clip);
-                //Collections.reverse(clipboard_contents);
                 adapter.notifyDataSetChanged();
             }
 
