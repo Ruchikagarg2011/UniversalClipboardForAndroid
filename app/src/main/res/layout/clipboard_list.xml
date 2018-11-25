@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="left"
-    android:padding="20dp">
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/img_device"
@@ -19,17 +21,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Device name"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         android:layout_toRightOf="@+id/img_device"/>
 
-    <TextView
+   <TextView
         android:id="@+id/clipboard_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is text view which will contain clipboard contents"
+        android:text="clip content"
         android:textSize="20dp"
+        android:maxLength="12"
         android:layout_toRightOf="@+id/img_device"
         android:layout_below="@+id/device_title"/>
+
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bin"
+        android:layout_toRightOf="@+id/clipboard_content"
+        android:layout_below="@+id/device_title"
+        android:background="@null"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

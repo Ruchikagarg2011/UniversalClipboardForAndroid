@@ -76,8 +76,7 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Log.i("Delete Button Clicked", "**********");
+
                 Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
                 Device device = data.get(position);
                 DeviceStore storeObject = new DeviceStore();

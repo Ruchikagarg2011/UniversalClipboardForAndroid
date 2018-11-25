@@ -56,13 +56,13 @@ public class ClipboardDetails extends Fragment {
         DatabaseReference dbReference = fdb.getReference(key);
 
 
-        dbReference.orderByChild("timestamp").limitToLast(5).addChildEventListener(new ChildEventListener() {
+        dbReference.orderByKey().limitToLast(5).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 ClipHistory clip = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
                 clipboard_contents.add(clip);
-                Collections.reverse(clipboard_contents);
+                //Collections.reverse(clipboard_contents);
                 adapter.notifyDataSetChanged();
             }
 
