@@ -26,6 +26,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.pramod.firebase.services.ClipboardMonitorService;
+import com.pramod.firebase.storage.Device;
+import com.pramod.firebase.storage.DeviceStore;
+import com.pramod.firebase.util.KeyStore;
+import com.pramod.firebase.util.RDBHandler;
 
 /**
  * @author Pramod Nanduri
@@ -58,14 +62,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Ui Components
-        setupElements();
-
-        //Start Services
-        startServices();
-
         //Firebase init settings.
         setupFireBase();
+
+/*
+        if (firebaseAuth.getCurrentUser() != null) {
+            navigateHomePage();
+            this.finish();
+            return;
+        }
+*/
+
+        //Ui Components
+        setupElements();
 
         //Ignore this method call if FB login not needed!
         facebookLogin();
@@ -90,23 +99,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    void startServices() {
-        if (!isMyServiceRunning(ClipboardMonitorService.class)) {
-            startService(new Intent(this, ClipboardMonitorService.class));
-        }
-    }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i("isMyServiceRunning?", true + "");
-                return true;
-            }
-        }
-        Log.i("isMyServiceRunning?", false + "");
-        return false;
-    }
+
+
 
     void setupFireBase() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -177,10 +172,11 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
+            DeviceStore.getInstance().storeCurrentDevice();
         } else {
             // If sign in fails, display a message to the user.
             Log.w(TAG, "signInWithEmail:failure", task.getException());
-            Toast.makeText(getApplicationContext(), "Invalid Credentials!", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "Invalid Credentials!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -204,5 +200,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), GlobalHomeActivity.class);
         startActivity(intent);
     }
+
 
 }

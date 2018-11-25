@@ -1,19 +1,29 @@
 package com.ruchika.device;
 
+import com.pramod.firebase.Constants;
+
+import java.util.Map;
+
 public class Device {
     String deviceName;
     String ipName;
-    String state;
+    String state = Constants.STATE_ON;
 
-    public void setDeviceName(String deviceName){
-        this.deviceName =deviceName;
+    public Device(Map<String, String> map) {
+        deviceName = map.get("deviceName");
+        ipName = map.get("ipName");
+        state = map.get("state");
     }
 
-    public void setIpName(String ipName){
-        this.ipName =ipName;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
-    public String getDeviceName(){
+    public void setIpName(String ipName) {
+        this.ipName = ipName;
+    }
+
+    public String getDeviceName() {
         return deviceName;
     }
 
@@ -21,7 +31,7 @@ public class Device {
         return ipName;
     }
 
-    public Device(String deviceName,String ipName){
+    public Device(String deviceName, String ipName) {
         super();
         this.deviceName = deviceName;
         this.ipName = ipName;

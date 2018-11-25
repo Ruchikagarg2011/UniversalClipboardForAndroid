@@ -1,18 +1,12 @@
-package com.pramod.firebase.storage;
+package com.ruchika.device;
 
-import com.pramod.firebase.util.KeyStore;
-import com.pramod.firebase.util.RDBHandler;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DeviceStore {
-
-    private static DeviceStore deviceStore = new DeviceStore();
-
-    public static DeviceStore getInstance() {
-        return deviceStore;
-    }
 
     Map<String, Device> map = new HashMap<>();
 
@@ -36,10 +30,16 @@ public class DeviceStore {
         return store;
     }
 
-    public void storeCurrentDevice() {
-        Device device = new Device(KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
-        addDevice(device);
-        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(KeyStore.getDeviceName()), device);
+    public static ArrayList<Device> getDeviceArray(DeviceStore obj){
+        ArrayList<Device> deviceArray = new ArrayList<Device>();
+        Map<String, Device> map = obj.getDevices();
+        for (String key : map.keySet()) {
+            Device deviceObj = map .get(key);
+            String deviceName = deviceObj.getDeviceName();
+            String ipName = deviceObj.getIpName();
+            deviceArray.add(new Device(deviceName, ipName));
+        }
+        return deviceArray;
     }
 
 }
