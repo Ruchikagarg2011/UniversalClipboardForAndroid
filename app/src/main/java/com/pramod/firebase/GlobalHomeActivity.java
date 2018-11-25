@@ -14,10 +14,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.pramod.firebase.services.ClipboardMonitorService;
@@ -42,7 +47,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_globalhome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
@@ -57,6 +62,36 @@ public class GlobalHomeActivity extends AppCompatActivity {
         setupElements();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logoutBtn:
+                logoutUser();
+                return true;
+        }
+
+        return true;
+
+    }
+
+
+    void logoutUser() {
+        FirebaseAuth.getInstance().signOut();
+        navigateLoginPage();
+    }
+
+    void navigateLoginPage() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
     void setupElements() {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
@@ -67,7 +102,12 @@ public class GlobalHomeActivity extends AppCompatActivity {
         });
 
         startServices();
+    }
 
+    void stopService() {
+        if (!isMyServiceRunning(ClipboardMonitorService.class)) {
+            stopService(new Intent(this, ClipboardMonitorService.class));
+        }
     }
 
     void startServices() {
@@ -98,11 +138,12 @@ public class GlobalHomeActivity extends AppCompatActivity {
          */
         @Override
 
-        public Fragment getItem(int position)
-        {
-            switch (position){
-                case 0 : return new DeviceActivity();
-                case 1 : return new ClipboardDetails();
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new DeviceActivity();
+                case 1:
+                    return new ClipboardDetails();
             }
             return null;
         }
