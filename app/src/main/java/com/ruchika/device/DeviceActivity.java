@@ -38,7 +38,7 @@ public class DeviceActivity extends Fragment {
 
     public DeviceActivity() {
         // Required empty public constructor
-        setupElements();
+    //    setupElements();
       //  getElements();
     }
 
@@ -85,8 +85,10 @@ public class DeviceActivity extends Fragment {
         dbReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)  {
-
+                Log.d("added",dataSnapshot.getValue().toString());
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
+                Log.d("Ruchika",device.getDeviceName());
+
                 deviceArray.add(device);
                 deviceCustomAdapter.notifyDataSetChanged();
 
@@ -112,11 +114,22 @@ public class DeviceActivity extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
- //               deviceCustomAdapter.clear();
 //                deviceArray = DeviceStore.getDeviceArray(val);
+                Log.d("changed",dataSnapshot.getValue().toString());
 
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
+                String deviceName = dataSnapshot.getKey();
+
+                for(Device d : deviceArray){
+                    if(d.getDeviceName().equals(deviceName)){
+                         int index = deviceArray.indexOf(d);
+                         Log.d("removed", index+"");
+                         deviceArray.remove(index);
+                         break;
+                    }
+                }
                 deviceArray.add(device);
+
 
 /*
                 DeviceStore val = DeviceStore.fromObject(dataSnapshot.getValue());
@@ -135,6 +148,20 @@ public class DeviceActivity extends Fragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
+                Log.d("deleted",dataSnapshot.getValue().toString());
+
+                Device device = new Device((Map<String, String>) dataSnapshot.getValue());
+                String deviceName = dataSnapshot.getKey();
+
+                for(Device d : deviceArray){
+                    if(d.getDeviceName().equals(deviceName)){
+                        int index = deviceArray.indexOf(d);
+                        Log.d("removed", index+"");
+                        deviceArray.remove(index);
+                        break;
+                    }
+                }
+                deviceCustomAdapter.notifyDataSetChanged();
             }
 
             @Override

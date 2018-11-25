@@ -78,7 +78,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new FragmentOne();
+                case 0 : return new DeviceActivity();
                 case 1 : return new ClipboardDetails();
             }
             return null;
