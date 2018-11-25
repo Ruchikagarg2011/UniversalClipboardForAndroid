@@ -75,8 +75,10 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
         */
 /**
-         * Return fragment with respect to Position .
-         *//*
+ * Return fragment with respect to Position .
+ * <p>
+ * This method returns the title of the tab according to the position.
+ *//*
 
         @Override
 
@@ -97,8 +99,8 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
         */
 /**
-         * This method returns the title of the tab according to the position.
-         *//*
+ * This method returns the title of the tab according to the position.
+ *//*
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -121,6 +123,7 @@ package com.pramod.firebase;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -165,7 +168,8 @@ public class GlobalHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_globalhome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));

@@ -72,7 +72,7 @@ public class ClipboardMonitorService extends Service {
         }
     }
 
-    public void saveInFirebase(String text, String messageType) {
+    public static void saveInFirebase(String text, String messageType) {
         ClipHistory history = new ClipHistory(
                 KeyStore.getDeviceName(),
                 text,
@@ -101,31 +101,38 @@ public class ClipboardMonitorService extends Service {
 
     private static ClipHistory lastValue;
 
+    public DBEventListener listener = new DBEventListener();
+
     void monitorFirebaseClipboardChanges() {
         DatabaseReference dbReference = database.getReference(KeyStore.getMainClipKeyForUser());
-        dbReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    ClipHistory val = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
+        dbReference.addValueEventListener(listener);
+    }
 
-                    //Same device copy and duplicate copy check.
-                    if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
-                        return;
-                    }
-                    if (val.isText()) {
-                        ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
-                        lastValue = val;
-                    }
-                    //Else handle image.
+    class DBEventListener implements ValueEventListener {
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.getValue() != null) {
+                ClipHistory val = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
+
+                //Same device copy and duplicate copy check.
+                if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
+                    return;
                 }
+                if (val.isText()) {
+                    ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
+                    lastValue = val;
+                }
+                //Else handle image.
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+        }
 
     }
+
 }
+
