@@ -4,16 +4,11 @@ import java.util.Map;
 
 public class ClipHistory {
 
-    /*String clipData;
-
-    ClipHistory(Map<String, String> map) {
-        this.clipData = map.get("clipData");
-    }*/
-
-
     String deviceName;
     String clipContent;
     String messageType;
+    String timestamp;
+
 
     public String getTimestamp() {
         return timestamp;
@@ -23,7 +18,7 @@ public class ClipHistory {
         this.timestamp = timestamp;
     }
 
-    String timestamp;
+
 
     public String getDeviceName() {
         return deviceName;

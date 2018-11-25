@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -80,6 +81,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
             switch (position){
                 case 0 : return new FragmentOne();
                 case 1 : return new ClipboardDetails();
+
             }
             return null;
         }
@@ -103,5 +105,6 @@ public class GlobalHomeActivity extends AppCompatActivity {
             return null;
         }
     }
+
 
 }

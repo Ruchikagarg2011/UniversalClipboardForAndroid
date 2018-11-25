@@ -33,21 +33,15 @@ import java.util.Map;
 public class ClipboardDetails extends Fragment {
 
     ListView listView;
-    Parcelable saveList;
     ClipboardAdapter adapter;
     ArrayList<ClipHistory> clipboard_contents = new ArrayList<ClipHistory>();
-
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
 
-    String deviceName,clipContents, messageType, timeStamp;
-
     public ClipboardDetails() {
-      //  setupElements();
-        //getElements();
+
     }
 
-   //private static String key = "history/"+FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private static String key1 = "history";
+    private static String key = "clipboard/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/history";
 
    /* void setupElements() {
         ClipHistoryStore clipHistoryStore = new ClipHistoryStore();
@@ -59,40 +53,23 @@ public class ClipboardDetails extends Fragment {
     }*/
 
     void getElements(){
-        DatabaseReference dbReference = fdb.getReference(key1);
+        DatabaseReference dbReference = fdb.getReference(key);
 
 
-        dbReference.orderByChild("timestamp").addChildEventListener(new ChildEventListener() {
+        dbReference.orderByChild("timestamp").limitToLast(5).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                ClipHistoryStore val = ClipHistoryStore.fromObject(dataSnapshot.getValue());
-                Map<String, ClipHistory> map = val.getClipContents();
-                for (String key : map.keySet()) {
-                    ClipHistory clipHistoryObj = map.get(key);
-                    deviceName = clipHistoryObj.getDeviceName();
-                    clipContents = clipHistoryObj.getClipContent();
-                    messageType = clipHistoryObj.getMessageType();
-                    timeStamp = clipHistoryObj.getTimestamp();
-                    clipboard_contents.add(new ClipHistory(deviceName, clipContents, messageType,timeStamp));
-                }
+
+                ClipHistory clip = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
+                clipboard_contents.add(clip);
                 Collections.reverse(clipboard_contents);
+                adapter.notifyDataSetChanged();
             }
+
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                adapter.clear();
-                ClipHistoryStore val = ClipHistoryStore.fromObject(dataSnapshot.getValue());
-                Map<String, ClipHistory> map = val.getClipContents();
-                for (String key : map.keySet()) {
-                    ClipHistory clipHistoryObj = map.get(key);
-                    deviceName = clipHistoryObj.getDeviceName();
-                    clipContents = clipHistoryObj.getClipContent();
-                    messageType = clipHistoryObj.getMessageType();
-                    timeStamp = clipHistoryObj.getTimestamp();
-                    clipboard_contents.add(new ClipHistory(deviceName, clipContents, messageType,timeStamp));
-                }
-                Collections.reverse(clipboard_contents);
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -127,7 +104,5 @@ public class ClipboardDetails extends Fragment {
             return view;
 
     }
-
-
 
 }
