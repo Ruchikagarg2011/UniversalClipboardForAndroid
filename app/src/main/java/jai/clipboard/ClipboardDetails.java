@@ -6,10 +6,12 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -105,10 +107,11 @@ public class ClipboardDetails extends Fragment{
             getElements();
 
             View view = inflater.inflate(R.layout.fragment_clipboard_details, container, false);
-            
+
             adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list, clipboard_contents);
             listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
             listView.setAdapter(adapter);
+
             return view;
 
     }

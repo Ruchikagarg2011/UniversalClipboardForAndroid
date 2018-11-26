@@ -133,6 +133,8 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                 notifyDataSetChanged();
             }
         });
+
+
         return row;
     }
 
