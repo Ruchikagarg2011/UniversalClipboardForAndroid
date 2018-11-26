@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.pramod.firebase"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -46,6 +46,8 @@ dependencies {
 
 
     implementation 'com.jaredrummler:android-device-names:1.0.9'
+
+    implementation 'com.google.firebase:firebase-storage:16.0.5'
 
 
 }

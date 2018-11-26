@@ -6,7 +6,8 @@
     android:gravity="left"
     android:paddingTop="20dp"
     android:paddingLeft="20dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:id="@+id/single_clip_layout">
 
     <ImageView
         android:id="@+id/img_device"
@@ -27,7 +28,7 @@
         android:layout_toRightOf="@+id/img_device"
         />
 
-   <TextView
+  <!-- <TextView
         android:id="@+id/clipboard_content"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -37,7 +38,11 @@
         android:layout_below="@+id/device_title"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="12sp"
-        app:autoSizeMaxTextSize="100sp"/>
+        app:autoSizeMaxTextSize="100sp"/>-->
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <ImageButton
         android:id="@+id/btn_delete"

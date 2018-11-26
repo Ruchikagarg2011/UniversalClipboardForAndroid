@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -21,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.R;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
+import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
 import java.util.ArrayList;
@@ -37,15 +40,13 @@ public class ClipboardDetails extends Fragment{
     ListView listView;
     ClipboardAdapter adapter;
     ArrayList<ClipHistory> clipboard_contents = new ArrayList<ClipHistory>();
-    ArrayList<ClipHistory> clipboard_contents_reverse = new ArrayList<ClipHistory>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
 
     public ClipboardDetails() {
 
     }
 
-    private static String key = "clipboard/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/history";
-
+    private static String key = KeyStore.getClipboardHistoryKeyForUser();
    /* void setupElements() {
         ClipHistoryStore clipHistoryStore = new ClipHistoryStore();
         ClipHistory clipHistory = new ClipHistory("Sumsung","abcd","text",Calendar.getInstance().getTime().toString());
@@ -58,7 +59,6 @@ public class ClipboardDetails extends Fragment{
     void getElements(){
         DatabaseReference dbReference = fdb.getReference(key);
 
-
         dbReference.orderByKey().limitToLast(5).addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -66,7 +66,7 @@ public class ClipboardDetails extends Fragment{
 
                 ClipHistory clip = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
                 if(clipboard_contents.size() >= 5){
-                    clipboard_contents.remove(0);
+                    clipboard_contents.remove(4);
                 }
                 clipboard_contents.add(clip);
                 Collections.sort(clipboard_contents);
@@ -105,6 +105,7 @@ public class ClipboardDetails extends Fragment{
             getElements();
 
             View view = inflater.inflate(R.layout.fragment_clipboard_details, container, false);
+            
             adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list, clipboard_contents);
             listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
             listView.setAdapter(adapter);
