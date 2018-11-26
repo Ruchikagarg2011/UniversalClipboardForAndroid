@@ -71,6 +71,11 @@
             android:exported="false"
             android:label="ClipboardMonitor" />
 
+        <service
+            android:name=".services.DeviceMonitorService"
+            android:exported="false"
+            android:label="DeviceMonitor" />
+
 
     </application>
 
