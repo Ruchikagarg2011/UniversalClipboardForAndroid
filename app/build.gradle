@@ -47,6 +47,7 @@ dependencies {
 
     implementation 'com.jaredrummler:android-device-names:1.0.9'
 
+    //Firebase Storage dependency
     implementation 'com.google.firebase:firebase-storage:16.0.5'
 
 

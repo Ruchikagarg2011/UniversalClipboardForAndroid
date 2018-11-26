@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -16,7 +18,10 @@ import android.widget.ToggleButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pramod.firebase.Constants;
 import com.pramod.firebase.R;
+import com.pramod.firebase.util.KeyStore;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,7 +31,12 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
 
     ArrayList<Device> data = new ArrayList<Device>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-    private static final String key = "devices/" + FirebaseAuth.getInstance().getUid();
+  //  private static final String key = "devices/" + FirebaseAuth.getInstance().getUid();
+    private static final String key = KeyStore.getDevicesKeyForUser();
+    TextView textDeviceName;
+    TextView textIPAddress;
+    Switch btnSwitch;
+    ImageButton btnDelete;
 
 
     public DeviceCustomAdapter(Context context, int layoutResourceId, ArrayList<Device> data) {
@@ -38,41 +48,57 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
 
     public View getView(final int position, View view, ViewGroup parent){
         View row = view;
-        DeviceDetails details = null;
+        Device device = data.get(position);
 
-        if(row == null){
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
-            details = new DeviceDetails();
-            details.textDeviceName = (TextView) row.findViewById(R.id.device_name);
-            details.textIPAddress =(TextView) row.findViewById(R.id.ip_name);
-            details.btnToggle =(ToggleButton)row.findViewById(R.id.toogle);
-            details.btnDelete =(Button)row.findViewById(R.id.delete);
-            row.setTag(details);
-        } else {
-            details =(DeviceDetails)row.getTag();
+            textDeviceName = (TextView) row.findViewById(R.id.device_name);
+            textIPAddress =(TextView) row.findViewById(R.id.ip_name);
+            btnSwitch =(Switch) row.findViewById(R.id.btnSwitch);
+            btnDelete =(ImageButton) row.findViewById(R.id.delete);
+         //   row.setTag(details);
+          //  details =(DeviceDetails)row.getTag();
+
+
+        textDeviceName.setText(device.getDeviceName());
+        textIPAddress.setText(device.getIpName());
+        Log.d("currentState",device.getState());
+
+        if (device.getState().equals("0")) {
+            btnSwitch.setChecked(false);
         }
 
-        Device device = data.get(position);
-        details.textDeviceName.setText(device.getDeviceName());
-        details.textIPAddress.setText(device.getIpName());
+     //   details.btnSwitch.setText(device.getState());
 
-        details.btnToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
                     Device device = data.get(position);
-                    device.state = "ON";
+                    device.state = Constants.STATE_ON;
+                    Log.d("stateON",device.state);
+                    String mapKey = device.deviceName;
+                    DatabaseReference dbReference = fdb.getReference(key).child(mapKey).child("state");
+                    Log.d("dbreference1",dbReference.toString());
+                    dbReference.setValue("1");
+
                 } else {
                     // The toggle is disabled
                     Device device = data.get(position);
-                    device.state = "OFF";
+                    device.state = Constants.STATE_OFF;
+                    Log.d("stateOFF",device.state);
+                    String mapKey = device.deviceName;
+                    DatabaseReference dbReference = fdb.getReference(key).child(mapKey).child("state");
+                    Log.d("dbreference2",dbReference.toString());
+                    dbReference.setValue("0");
+
                 }
                 notifyDataSetChanged();
             }
         });
 
-        details.btnDelete.setOnClickListener(new View.OnClickListener() {
+        btnDelete.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -95,10 +121,5 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         return row;
     }
 
-    static class DeviceDetails {
-        TextView textDeviceName;
-        TextView textIPAddress;
-        ToggleButton btnToggle;
-        Button btnDelete;
-    }
+
 }

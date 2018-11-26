@@ -147,10 +147,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.pramod.firebase.services.ClipboardMonitorService;
+import com.pramod.firebase.services.DeviceMonitorService;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
 import com.pramod.firebase.util.RDBHandler;
 import com.ruchika.device.DeviceActivity;
+import com.shweta.shareFile.FirebaseFileHandler;
 
 import org.w3c.dom.Text;
 
@@ -182,6 +184,9 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
 
         setupElements();
+
+        setUpIntent();
+
     }
 
     @Override
@@ -224,17 +229,24 @@ public class GlobalHomeActivity extends AppCompatActivity {
         });
 
         startServices();
+        startDeviceServices();
     }
 
-    void stopService() {
+  public void stopService() {
         if (!isMyServiceRunning(ClipboardMonitorService.class)) {
             stopService(new Intent(this, ClipboardMonitorService.class));
         }
     }
 
-    void startServices() {
+   public void startServices() {
         if (!isMyServiceRunning(ClipboardMonitorService.class)) {
             startService(new Intent(this, ClipboardMonitorService.class));
+        }
+    }
+
+    public void startDeviceServices() {
+        if (!isMyServiceRunning(DeviceMonitorService.class)) {
+            startService(new Intent(this, DeviceMonitorService.class));
         }
     }
 
@@ -289,6 +301,13 @@ public class GlobalHomeActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    void setUpIntent(){
+        Intent intent = getIntent();
+        FirebaseFileHandler.sendIntentHandler(intent);
+    }
+
+
 
 }
 

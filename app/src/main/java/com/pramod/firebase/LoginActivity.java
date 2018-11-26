@@ -30,6 +30,7 @@ import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
+import com.shweta.shareFile.FirebaseFileHandler;
 
 /**
  * @author Pramod Nanduri
@@ -77,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         //Ignore this method call if FB login not needed!
         facebookLogin();
 
+       /* setUpIntent();*/
+
     }
 
     /**
@@ -96,7 +99,27 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+/*
 
+    void setUpIntent(){
+        Intent intent = getIntent();
+        sendIntentHandler(intent);
+    }
+*/
+
+
+    /*public static void sendIntentHandler(Intent intent) {
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                FirebaseFileHandler.handleSendText(intent); // Handle text being sent
+            } else if (type.startsWith("image/")) {
+                FirebaseFileHandler.handleSendImage(intent); // Handle single image being sent
+            }
+        }
+    }*/
 
     void setupFireBase() {
         firebaseAuth = FirebaseAuth.getInstance();
