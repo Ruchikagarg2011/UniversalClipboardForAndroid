@@ -47,6 +47,8 @@ dependencies {
 
     implementation 'com.jaredrummler:android-device-names:1.0.9'
 
+    implementation 'com.google.firebase:firebase-storage:16.0.5'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

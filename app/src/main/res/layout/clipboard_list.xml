@@ -39,6 +39,10 @@
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="12sp"
         app:autoSizeMaxTextSize="100sp"/>-->
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <ImageButton
         android:id="@+id/btn_delete"

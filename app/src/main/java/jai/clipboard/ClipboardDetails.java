@@ -105,25 +105,7 @@ public class ClipboardDetails extends Fragment{
             getElements();
 
             View view = inflater.inflate(R.layout.fragment_clipboard_details, container, false);
-
-           // View newView = inflater.inflate(R.layout.clipboard_list,container,false);
-
-
-          /*  RelativeLayout single_clip_layout = getActivity().findViewById(R.id.single_clip_layout);
-
-            TextView single_clip_content = new TextView(this.getActivity());
-            single_clip_content.setId(R.id.clipboard_content);
-            single_clip_content.setTextSize(20);
-
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(250,RelativeLayout.LayoutParams.WRAP_CONTENT);
-            lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
-            lp.addRule(RelativeLayout.BELOW, R.id.device_title);
-
-            single_clip_content.setLayoutParams(lp);
-            single_clip_layout.addView(single_clip_content);
-*/
-
-
+            
             adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list, clipboard_contents);
             listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
             listView.setAdapter(adapter);
