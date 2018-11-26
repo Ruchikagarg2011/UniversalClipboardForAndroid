@@ -12,5 +12,4 @@ public class BroadcastReceiverService extends BroadcastReceiver {
         context.startService(new Intent(context, ClipboardMonitorService.class));
         Log.i(this.getClass().getName(), "ReStarted ClipboardMonitorService!");
     }
-
 }

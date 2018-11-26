@@ -67,6 +67,7 @@ public class ClipHistory implements  Comparable{
         return getMessageType().equals(Constants.TYPE_TEXT);
     }
 
+
     @Override
     public boolean equals(Object obj) {
         ClipHistory second = (ClipHistory) obj;

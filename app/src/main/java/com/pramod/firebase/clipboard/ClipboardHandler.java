@@ -15,4 +15,5 @@ public class ClipboardHandler {
         Log.i(Constants.TAG, "Stored in clipboard: " + text);
     }
 
+
 }
