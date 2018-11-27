@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingTop="20dp"
     android:layout_centerInParent="true"
-    android:layout_gravity="center_horizontal">
+    android:layout_gravity="center_horizontal"
+    android:background="@null">
 
     <RelativeLayout
         android:id="@+id/device_details"
@@ -16,28 +18,31 @@
             android:id="@+id/device_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/baseline_personal_video_black_18dp"
-            android:padding="10dp"/>
+            android:src="@drawable/smartphone"
+            android:padding="10dp"
+            android:background="@null"/>
         <TextView
             android:id="@+id/device_name"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Device Name"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:layout_toRightOf="@id/device_image"
-            android:maxLength="12"
-            />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="100sp" />
         <TextView
             android:id="@+id/ip_name"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="IP Name"
-            android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:layout_toRightOf="@id/device_image"
             android:layout_below="@+id/device_name"
-            android:maxLength="12"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="100sp"
             />
     </RelativeLayout>
 

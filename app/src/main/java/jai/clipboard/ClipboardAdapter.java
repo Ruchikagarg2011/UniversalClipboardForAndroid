@@ -68,7 +68,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             RelativeLayout single_clip_layout = row.findViewById(R.id.single_clip_layout);
             TextView clip_content_txt = new TextView(this.getContext());
             clip_content_txt.setId(R.id.clipboard_content);
-            clip_content_txt.setTextSize(20);
+            clip_content_txt.setTextSize(15);
             clip_content_txt.setText(clipDetails.getClipContent());
             clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
 
@@ -85,7 +85,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             final ImageView clip_content_img = new ImageView(this.getContext());
             clip_content_img.setId(R.id.clipboard_content);
 
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,200);
             lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
             lp.addRule(RelativeLayout.BELOW, R.id.device_title);
             clip_content_img.setLayoutParams(lp);

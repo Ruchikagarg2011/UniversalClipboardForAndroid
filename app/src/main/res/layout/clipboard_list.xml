@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="left"
-    android:paddingTop="20dp"
-    android:paddingLeft="20dp"
-    android:paddingBottom="5dp"
+    android:layout_centerInParent="true"
+    android:layout_marginTop="5dp"
+    android:layout_gravity="center_horizontal"
     android:id="@+id/single_clip_layout">
 
     <ImageView
         android:id="@+id/img_device"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@drawable/monitor_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/smartphone"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:id="@+id/device_title"
