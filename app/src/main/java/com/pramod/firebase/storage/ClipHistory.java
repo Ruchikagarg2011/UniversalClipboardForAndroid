@@ -1,12 +1,15 @@
 package com.pramod.firebase.storage;
 
+import android.support.annotation.NonNull;
+
 import com.pramod.firebase.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
-public class ClipHistory {
+public class ClipHistory implements  Comparable{
 
     String deviceName;
     String clipContent;
@@ -60,11 +63,10 @@ public class ClipHistory {
         timestamp = map.get("timestamp");
     }
 
-
-
     public boolean isText() {
         return getMessageType().equals(Constants.TYPE_TEXT);
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -74,5 +76,16 @@ public class ClipHistory {
         }
         return second.getMessageType().equals(messageType)
                 && second.getClipContent().equals(clipContent);
+    }
+
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        ClipHistory clipHistory = (ClipHistory)o;
+        if(this.getTimestamp().equals(((ClipHistory) o).getTimestamp())){
+            return 0;
+        }else{
+            return (((ClipHistory) o).getTimestamp().compareTo(this.getTimestamp()));
+        }
     }
 }

@@ -19,6 +19,7 @@ import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
+import com.shweta.shareFile.FirebaseFileHandler;
 
 import java.security.Key;
 import java.util.Calendar;
@@ -123,7 +124,15 @@ public class ClipboardMonitorService extends Service {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
                     lastValue = val;
                 }
-                //Else handle image.
+                if (val.getMessageType().equals(Constants.TYPE_IMAGE)) {
+                    FirebaseFileHandler.downloadFile(val.getClipContent());
+                    lastValue = val;
+                }
+                if (val.getMessageType().equals(Constants.TYPE_FILE)) {
+                    ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
+                    lastValue = val;
+                }
+
             }
         }
 

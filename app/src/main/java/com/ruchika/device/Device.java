@@ -7,11 +7,17 @@ import java.util.Map;
 public class Device {
     String deviceName;
     String ipName;
+
+
+
     String state = Constants.STATE_ON;
+
+
 
     public Device(Map<String, String> map) {
         deviceName = map.get("deviceName");
         ipName = map.get("ipName");
+
         state = map.get("state");
     }
 
@@ -23,6 +29,9 @@ public class Device {
         this.ipName = ipName;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
     public String getDeviceName() {
         return deviceName;
     }
@@ -31,6 +40,9 @@ public class Device {
         return ipName;
     }
 
+    public String getState() {
+        return state;
+    }
     public Device(String deviceName, String ipName) {
         super();
         this.deviceName = deviceName;

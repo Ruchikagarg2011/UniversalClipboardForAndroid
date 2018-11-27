@@ -17,12 +17,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pramod.firebase.R;
+import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 
@@ -32,7 +34,9 @@ public class DeviceActivity extends Fragment {
     DeviceCustomAdapter deviceCustomAdapter;
     ArrayList<Device> deviceArray = new ArrayList<Device>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-    private static final String key = "devices/" +FirebaseAuth.getInstance().getCurrentUser().getUid();
+ //   private static final String key = "devices/" +FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private static final String key = KeyStore.getDevicesKeyForUser();
+
     String value;
     String deviceName,ipName;
 
@@ -82,7 +86,7 @@ public class DeviceActivity extends Fragment {
 
     public void childActivity(){
         DatabaseReference dbReference = fdb.getReference(key);
-        dbReference.addChildEventListener(new ChildEventListener() {
+        dbReference.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
             public void  onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)  {
                 Log.d("added",dataSnapshot.getValue().toString());
@@ -115,20 +119,27 @@ public class DeviceActivity extends Fragment {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 //                deviceArray = DeviceStore.getDeviceArray(val);
-                Log.d("changed",dataSnapshot.getValue().toString());
-
+//                Log.d("changed",dataSnapshot.getValue().toString());
+//
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 String deviceName = dataSnapshot.getKey();
-
+                String state = device.getState();
                 for(Device d : deviceArray){
                     if(d.getDeviceName().equals(deviceName)){
-                         int index = deviceArray.indexOf(d);
-                         Log.d("removed", index+"");
-                         deviceArray.remove(index);
-                         break;
+                        int index = deviceArray.indexOf(d);
+                        deviceArray.set(index,device);
                     }
                 }
-                deviceArray.add(device);
+//
+//                for(Device d : deviceArray){
+//                    if(d.getDeviceName().equals(deviceName) && d.getDeviceState().equals(state)){
+//                         int index = deviceArray.indexOf(d);
+//                         Log.d("removed", index+"");
+//                         deviceArray.remove(index);
+//                         break;
+//                    }
+//                }
+//                deviceArray.add(device);
 
 
 /*
@@ -152,7 +163,6 @@ public class DeviceActivity extends Fragment {
 
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 String deviceName = dataSnapshot.getKey();
-
                 for(Device d : deviceArray){
                     if(d.getDeviceName().equals(deviceName)){
                         int index = deviceArray.indexOf(d);
