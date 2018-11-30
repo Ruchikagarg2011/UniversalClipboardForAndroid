@@ -1,7 +1,9 @@
 package jai.clipboard;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
     Activity context;
@@ -70,7 +73,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             clip_content_txt.setId(R.id.clipboard_content);
             clip_content_txt.setTextSize(15);
             clip_content_txt.setText(clipDetails.getClipContent());
-            clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+           // clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
 
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
@@ -119,7 +122,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
                 ClipHistory clipHistory = clipContents.get(position);
                 ClipHistoryStore storeObject = new ClipHistoryStore();
                 Map<String, ClipHistory> map = storeObject.getClipContents();
@@ -130,7 +133,39 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                 DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
                 dbReference.removeValue();
 
-                notifyDataSetChanged();
+                notifyDataSetChanged();*/
+
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure you want delete?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       //Toast.makeText(getContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
+                        ClipHistory clipHistory = clipContents.get(position);
+                        ClipHistoryStore storeObject = new ClipHistoryStore();
+                        Map<String, ClipHistory> map = storeObject.getClipContents();
+                        String mapKey = clipHistory.getTimestamp();
+                        map.remove(mapKey);
+                        clipContents.remove(position);
+
+                        DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                        dbReference.removeValue();
+
+                        notifyDataSetChanged();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "You've changed your mind to delete the clip", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
             }
         });
 

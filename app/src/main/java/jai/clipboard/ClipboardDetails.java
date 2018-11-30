@@ -111,7 +111,12 @@ public class ClipboardDetails extends Fragment{
             adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list, clipboard_contents);
             listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
             listView.setAdapter(adapter);
-
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d("Jai","this is clickable");
+                }
+            });
             return view;
 
     }
