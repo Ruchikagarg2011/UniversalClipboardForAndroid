@@ -1,4 +1,5 @@
 package com.shweta.shareFile;
+
 import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.app.PendingIntent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import com.google.firebase.database.core.Tag;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -23,12 +25,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pramod.firebase.Constants;
 import com.pramod.firebase.clipboard.ClipboardHandler;
+import com.pramod.firebase.services.BroadcastReceiverService;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import java.io.File;
 import java.io.IOException;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,18 +49,22 @@ public class FirebaseFileHandler extends AppCompatActivity {
 
     static FirebaseUser user;
     static Uri filePath = null;
-    public static Context context;
+    public Context context;
     public static Intent intent;
 
     private static FirebaseStorage storage;
 
+
+    FirebaseFileHandler() {
+        context = getApplicationContext();
+    }
 
     public static void sendIntentHandler(Intent intent) {
         String action = intent.getAction();
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-                handleSendImage(intent, type); // Handle single image being sent
+            handleSendImage(intent, type); // Handle single image being sent
         }
     }
 
@@ -65,23 +74,19 @@ public class FirebaseFileHandler extends AppCompatActivity {
     }
 
 
-
     public static void handleSendImage(Intent intent, String type) {
 
         setupFirebaseStorage();
 
         String ext = null;
 
-        if(type.startsWith("image/")== true){
+        if (type.startsWith("image/") == true) {
             ext = ".png";
-        }
-        else if(type.startsWith("application/pdf")== true){
+        } else if (type.startsWith("application/pdf") == true) {
             ext = ".pdf";
-        }
-        else if(type.startsWith("video/")== true){
+        } else if (type.startsWith("video/") == true) {
             ext = ".mov";
-        }
-        else if(type.startsWith("audio/")== true){
+        } else if (type.startsWith("audio/") == true) {
             ext = ".mp3";
         }
 
@@ -92,10 +97,10 @@ public class FirebaseFileHandler extends AppCompatActivity {
 
         // [START upload_create_reference]
         // Create a storage reference from our app
-         StorageReference storageRef = storage.getReference();
+        StorageReference storageRef = storage.getReference();
 
-        String fileName =  new SimpleDateFormat("yyyyMMddHHmmss'.jpg'").format(new Date());
-         final StorageReference imageRef = storageRef.child("images/"  + fileName);
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss'.jpg'").format(new Date());
+        final StorageReference imageRef = storageRef.child("images/" + fileName);
         imageRef.putFile(filePath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -103,8 +108,8 @@ public class FirebaseFileHandler extends AppCompatActivity {
                         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                Log.i(Constants.TAG, "onSuccess file upload: uri= "+ uri.toString());
-                                ClipboardMonitorService.saveInFirebase(uri.toString(),Constants.TYPE_IMAGE);
+                                Log.i(Constants.TAG, "onSuccess file upload: uri= " + uri.toString());
+                                ClipboardMonitorService.saveInFirebase(uri.toString(), Constants.TYPE_IMAGE);
                             }
                         });
                     }
@@ -114,7 +119,7 @@ public class FirebaseFileHandler extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
 
-                        Toast.makeText(context, "Could not download. Please check you storage permission", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "Could not download. Please check you storage permission", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -141,17 +146,18 @@ public class FirebaseFileHandler extends AppCompatActivity {
             storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                    Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
+                    Log.d(Constants.TAG, "Image downloaded");
+                    //Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
+                    Log.d(Constants.TAG, "Failed image downloaded");
+                    //Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
                 }
             });
         } catch (IOException e) {
-            Toast.makeText(context, "Storage exception", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Storage exception", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

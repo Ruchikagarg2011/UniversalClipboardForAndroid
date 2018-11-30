@@ -73,7 +73,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             clip_content_txt.setId(R.id.clipboard_content);
             clip_content_txt.setTextSize(15);
             clip_content_txt.setText(clipDetails.getClipContent());
-           // clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            // clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
             //clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
 
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -144,7 +144,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       //Toast.makeText(getContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
                         ClipHistory clipHistory = clipContents.get(position);
                         ClipHistoryStore storeObject = new ClipHistoryStore();
                         Map<String, ClipHistory> map = storeObject.getClipContents();
