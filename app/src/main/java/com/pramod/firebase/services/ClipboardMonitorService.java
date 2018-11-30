@@ -1,11 +1,12 @@
 package com.pramod.firebase.services;
+import com.pramod.firebase.custom_notification;
 
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -13,13 +14,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.pramod.firebase.Constants;
 import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
-import com.shweta.shareFile.FirebaseFileHandler;
+
 
 import java.security.Key;
 import java.util.Calendar;
@@ -30,6 +32,7 @@ public class ClipboardMonitorService extends Service {
     ClipboardChangeListener changeListener;
     private ClipboardManager clipboardManager;
     FirebaseDatabase database;
+
 
     @Override
     public void onCreate() {
@@ -118,20 +121,29 @@ public class ClipboardMonitorService extends Service {
 
                 //Same device copy and duplicate copy check.
                 if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
-                    return;
+                     return;
                 }
                 if (val.isText()) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
                     lastValue = val;
                 }
-                if (val.getMessageType().equals(Constants.TYPE_IMAGE)) {
-                    FirebaseFileHandler.downloadFile(val.getClipContent());
+                else{
+                    custom_notification.displayNotification(getApplicationContext(),val.getClipContent());
+                    lastValue = val;
+                }
+                /*else if (val.getMessageType().equals(Constants.TYPE_IMAGE)) {
+
+                                    //String token = task.getResult().getToken();
+                    //sendNotification(val.getClipContent());
+
+                        //should change
+                    custom_notification.displayNotification(getApplicationContext(),val.getClipContent());
                     lastValue = val;
                 }
                 if (val.getMessageType().equals(Constants.TYPE_FILE)) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
                     lastValue = val;
-                }
+                }*/
 
             }
         }
