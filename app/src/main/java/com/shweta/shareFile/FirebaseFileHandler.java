@@ -142,16 +142,16 @@ public class FirebaseFileHandler extends AppCompatActivity {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
-                    Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
                 }
             });
         } catch (IOException e) {
-            Toast.makeText(context, "Storage exception", Toast.LENGTH_LONG).show();
+           // Toast.makeText(context, "Storage exception", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
