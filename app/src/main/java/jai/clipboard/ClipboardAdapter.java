@@ -1,7 +1,9 @@
 package jai.clipboard;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -36,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+
 
 public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
@@ -119,7 +122,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
+                /*Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
                 ClipHistory clipHistory = clipContents.get(position);
                 ClipHistoryStore storeObject = new ClipHistoryStore();
                 Map<String, ClipHistory> map = storeObject.getClipContents();
@@ -130,7 +133,39 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                 DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
                 dbReference.removeValue();
 
-                notifyDataSetChanged();
+                notifyDataSetChanged();*/
+
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure you want delete?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       //Toast.makeText(getContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
+                        ClipHistory clipHistory = clipContents.get(position);
+                        ClipHistoryStore storeObject = new ClipHistoryStore();
+                        Map<String, ClipHistory> map = storeObject.getClipContents();
+                        String mapKey = clipHistory.getTimestamp();
+                        map.remove(mapKey);
+                        clipContents.remove(position);
+
+                        DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                        dbReference.removeValue();
+
+                        notifyDataSetChanged();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "You've changed your mind to delete the clip", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
             }
         });
 
