@@ -15,4 +15,9 @@ public class Constants {
     public static final String TYPE_FILE = "3";
     public static final String TYPE_VIDEO = "4";
 
+
+
+    public static final String DOWNLOAD_ACTION = "download";
+    public static final String CANCEL_ACTION = "cancel";
+
 }
