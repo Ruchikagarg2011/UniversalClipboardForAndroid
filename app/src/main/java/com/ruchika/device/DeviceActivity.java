@@ -34,20 +34,20 @@ public class DeviceActivity extends Fragment {
     DeviceCustomAdapter deviceCustomAdapter;
     ArrayList<Device> deviceArray = new ArrayList<Device>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
- //   private static final String key = "devices/" +FirebaseAuth.getInstance().getCurrentUser().getUid();
+    //   private static final String key = "devices/" +FirebaseAuth.getInstance().getCurrentUser().getUid();
     private static final String key = KeyStore.getDevicesKeyForUser();
 
     String value;
-    String deviceName,ipName;
+    String deviceName, ipName;
 
     public DeviceActivity() {
         // Required empty public constructor
-    //    setupElements();
-      //  getElements();
+        //    setupElements();
+        //  getElements();
     }
 
 
-    void setupElements(){
+    void setupElements() {
 
         DeviceStore store = new DeviceStore();
         Device device = new Device("testdevice3", "1.2.3.4");
@@ -84,14 +84,14 @@ public class DeviceActivity extends Fragment {
 
     } */
 
-    public void childActivity(){
+    public void childActivity() {
         DatabaseReference dbReference = fdb.getReference(key);
         dbReference.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
-            public void  onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)  {
-                Log.d("added",dataSnapshot.getValue().toString());
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("added", dataSnapshot.getValue().toString());
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
-                Log.d("Ruchika",device.getDeviceName());
+                Log.d("Ruchika", device.getDeviceName());
 
                 deviceArray.add(device);
                 deviceCustomAdapter.notifyDataSetChanged();
@@ -109,7 +109,7 @@ public class DeviceActivity extends Fragment {
                         deviceArray.add(new Device(deviceName, ipName));
                     }
 */
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 
@@ -124,10 +124,10 @@ public class DeviceActivity extends Fragment {
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 String deviceName = dataSnapshot.getKey();
                 String state = device.getState();
-                for(Device d : deviceArray){
-                    if(d.getDeviceName().equals(deviceName)){
+                for (Device d : deviceArray) {
+                    if (d.getDeviceName().equals(deviceName)) {
                         int index = deviceArray.indexOf(d);
-                        deviceArray.set(index,device);
+                        deviceArray.set(index, device);
                     }
                 }
 //
@@ -159,14 +159,14 @@ public class DeviceActivity extends Fragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.d("deleted",dataSnapshot.getValue().toString());
+                Log.d("deleted", dataSnapshot.getValue().toString());
 
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 String deviceName = dataSnapshot.getKey();
-                for(Device d : deviceArray){
-                    if(d.getDeviceName().equals(deviceName)){
+                for (Device d : deviceArray) {
+                    if (d.getDeviceName().equals(deviceName)) {
                         int index = deviceArray.indexOf(d);
-                        Log.d("removed", index+"");
+                        Log.d("removed", index + "");
                         deviceArray.remove(index);
                         break;
                     }
@@ -193,10 +193,10 @@ public class DeviceActivity extends Fragment {
         // Inflate the layout for this fragment
         childActivity();
 
-        View view= inflater.inflate(R.layout.device_list, container, false);
+        View view = inflater.inflate(R.layout.device_list, container, false);
         deviceCustomAdapter = new DeviceCustomAdapter(this.getActivity(), R.layout.device_details, deviceArray);
-        deviceList =(ListView)view.findViewById(R.id.devicelist);
-       // deviceList.setItemsCanFocus(false);
+        deviceList = (ListView) view.findViewById(R.id.devicelist);
+        // deviceList.setItemsCanFocus(false);
         deviceList.setAdapter(deviceCustomAdapter);
         return view;
     }

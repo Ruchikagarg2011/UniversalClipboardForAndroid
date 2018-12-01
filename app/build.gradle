@@ -50,6 +50,8 @@ dependencies {
     //Firebase Storage dependency
     implementation 'com.google.firebase:firebase-storage:16.0.5'
 
+    implementation 'com.yarolegovich:lovely-dialog:1.1.0'
+
 
 
 }

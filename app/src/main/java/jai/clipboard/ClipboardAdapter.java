@@ -62,29 +62,27 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
         TextView device_title_txt = (TextView) row.findViewById(R.id.device_title);
         device_title_txt.setText(clipDetails.getDeviceName());
 
-        if(clipDetails.getMessageType().equals("1")){
+        if (clipDetails.getMessageType().equals("1")) {
             RelativeLayout single_clip_layout = row.findViewById(R.id.single_clip_layout);
             TextView clip_content_txt = new TextView(this.getContext());
             clip_content_txt.setId(R.id.clipboard_content);
             clip_content_txt.setTextSize(15);
             clip_content_txt.setText(clipDetails.getClipContent());
-            // clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-            //clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
 
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400, RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
             lp.addRule(RelativeLayout.BELOW, R.id.device_title);
 
             clip_content_txt.setLayoutParams(lp);
             single_clip_layout.addView(clip_content_txt);
 
-        }else if(clipDetails.getMessageType().equals("2")){
+        } else if (clipDetails.getMessageType().equals("2")) {
 
             RelativeLayout single_clip_layout = row.findViewById(R.id.single_clip_layout);
             final ImageView clip_content_img = new ImageView(this.getContext());
             clip_content_img.setId(R.id.clipboard_content);
 
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,200);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400, 200);
             lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
             lp.addRule(RelativeLayout.BELOW, R.id.device_title);
             clip_content_img.setLayoutParams(lp);
@@ -106,11 +104,11 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                     public void onFailure(@NonNull Exception exception) {
                     }
                 });
-            } catch (IOException e ) {}
+            } catch (IOException e) {
+            }
 
             single_clip_layout.addView(clip_content_img);
         }
-
 
 
         ImageButton del_btn = (ImageButton) row.findViewById(R.id.btn_delete);
@@ -133,7 +131,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                         map.remove(mapKey);
                         clipContents.remove(position);
 
-                        if(clipHistory.getMessageType().equals("1")) {
+                        if (clipHistory.getMessageType().equals("1")) {
                             DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
                             dbReference.removeValue();
                         }
@@ -149,6 +147,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                 });
 
                 builder.show();
+
             }
         });
 
