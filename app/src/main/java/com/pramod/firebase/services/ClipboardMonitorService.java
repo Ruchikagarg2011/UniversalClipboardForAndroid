@@ -73,8 +73,10 @@ public class ClipboardMonitorService extends Service {
         public void onPrimaryClipChanged() {
             ClipData data = clipboardManager.getPrimaryClip();
             if (data != null) {
-                String text = data.getItemAt(0).getText().toString();
-                saveInFirebase(text, Constants.TYPE_TEXT);
+                CharSequence clipText = data.getItemAt(0).getText();
+                if(clipText != null) {
+                    saveInFirebase(clipText.toString(), Constants.TYPE_TEXT);
+                }
             }
         }
     }
@@ -126,7 +128,7 @@ public class ClipboardMonitorService extends Service {
 
                 //Same device copy and duplicate copy check.
                 if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
-                    //return;
+                    return;
                 }
                 if (val.isText()) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
