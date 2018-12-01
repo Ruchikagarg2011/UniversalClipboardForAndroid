@@ -100,7 +100,6 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
 
        if (device.getState().equals("0")) {
             btnSwitch.setChecked(false);
-
         }
 
      //   details.btnSwitch.setText(device.getState());

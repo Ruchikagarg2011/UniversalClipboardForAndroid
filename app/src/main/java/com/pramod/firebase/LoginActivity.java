@@ -174,9 +174,6 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public String getDeviceId() {
-        return KeyStore.getDeviceId(this.getContentResolver());
-    }
 
     //Common method to handle signin result.
     void handleLoginResult(@NonNull Task<AuthResult> task) {

@@ -40,7 +40,7 @@ public class DeviceStore {
     }
 
     public void storeCurrentDevice(ContentResolver resolver) {
-        String deviceId = KeyStore.getDevicesKeyForCurrentDevice(resolver);
+        String deviceId = KeyStore.getDeviceId(resolver);
         Device device = new Device(deviceId, KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
         addDevice(device);
         RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(resolver), device);

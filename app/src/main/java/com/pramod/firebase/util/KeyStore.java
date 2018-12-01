@@ -1,10 +1,7 @@
 package com.pramod.firebase.util;
 
 import android.content.ContentResolver;
-import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.provider.Settings;
-import android.text.format.Formatter;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,7 +9,6 @@ import com.jaredrummler.android.device.DeviceName;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.security.Key;
 import java.util.Calendar;
 import java.util.Enumeration;
 
