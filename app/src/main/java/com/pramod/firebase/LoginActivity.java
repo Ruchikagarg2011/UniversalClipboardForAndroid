@@ -30,6 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
+import com.pramod.firebase.util.KeyStore;
+
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -173,9 +175,8 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public  String getDeviceId(){
-        String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
-        return androidId;
+    public String getDeviceId(){
+        return KeyStore.getDeviceId(this.getContentResolver());
     }
 
     //Common method to handle signin result.

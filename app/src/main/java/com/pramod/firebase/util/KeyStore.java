@@ -1,5 +1,6 @@
 package com.pramod.firebase.util;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
@@ -48,6 +49,9 @@ public class KeyStore {
         return DeviceName.getDeviceName();
     }
 
+    public static String getDeviceId(ContentResolver cv) {
+        return Settings.Secure.getString(cv,Settings.Secure.ANDROID_ID);
+    }
 
 
     public static String getLocalIpAddress() {

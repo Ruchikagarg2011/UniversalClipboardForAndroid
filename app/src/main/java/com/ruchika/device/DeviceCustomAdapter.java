@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.Constants;
+import com.pramod.firebase.GlobalHomeActivity;
+import com.pramod.firebase.LoginActivity;
 import com.pramod.firebase.R;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
@@ -156,7 +158,7 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
 //
 //        });
 
-
+        btnSwitch.setFocusable(false);
         btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -185,27 +187,61 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
             }
         });
 
+        btnDelete.setFocusable(false);
         btnDelete.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
-                Device device = data.get(position);
-                DeviceStore storeObject = new DeviceStore();
-                Map<String,Device> map = storeObject.getDevices();
-                String mapKey = device.deviceId;
-                map.remove(mapKey);
-                data.remove(position);
+//                Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
+//                Device device = data.get(position);
+//                DeviceStore storeObject = new DeviceStore();
+//                Map<String,Device> map = storeObject.getDevices();
+//                String mapKey = device.deviceId;
+//                map.remove(mapKey);
+//                data.remove(position);
+//
+//                DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+//                dbReference.removeValue();
+//
+//                notifyDataSetChanged();
 
-                DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
-                dbReference.removeValue();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure you want delete?");
+                builder.setCancelable(false);
+                builder.getContext().getContentResolver();
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Device device = data.get(position);
+                        DeviceStore storeObject = new DeviceStore();
+                        Map<String,Device> map = storeObject.getDevices();
+                        String mapKey = device.deviceId;
+                        if(device.getDeviceId().equals(KeyStore.getDeviceId(builder.getContext().getContentResolver()))){
+                            FirebaseAuth.getInstance().signOut();
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            context.startActivity(intent);
+                        }
+                        map.remove(mapKey);
+                        data.remove(position);
 
-                notifyDataSetChanged();
+                        DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                        dbReference.removeValue();
+
+                        notifyDataSetChanged();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "You've changed your mind to delete the device", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
             }
         });
-
-
 
         return row;
     }
