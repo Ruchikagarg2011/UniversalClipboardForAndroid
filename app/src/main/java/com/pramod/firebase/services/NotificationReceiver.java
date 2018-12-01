@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.pramod.firebase.Constants;
 
 import com.pramod.firebase.GlobalHomeActivity;
@@ -23,8 +24,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         if (Constants.DOWNLOAD_ACTION.equals(action)) {
             String uri = intent.getStringExtra("url");
-            Log.d("downloading ",uri.toString());
-            FirebaseFileHandler.downloadFile(uri);
+            Log.d("downloading ", uri.toString());
+            FirebaseFileHandler.getINSTANCE().downloadFile(context, uri);
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(intent.getExtras().getInt("id"));
 
@@ -37,8 +38,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
 
     }
-
-
 
 
 }

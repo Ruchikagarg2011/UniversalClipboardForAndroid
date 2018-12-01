@@ -54,7 +54,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
     public static final String CHANNEL_ID = "Notification";
     public static final String CHANNEL_NAME = "Notification";
     public static final String CHANNEL_DESC = "Notification";
-    private static  int STORAGE_PERMISSION_CODE = 1;
+    private static int STORAGE_PERMISSION_CODE = 1;
 
 
     @Override
@@ -127,13 +127,13 @@ public class GlobalHomeActivity extends AppCompatActivity {
         startDeviceServices();
     }
 
-  public void stopService() {
+    public void stopService() {
         if (!isMyServiceRunning(ClipboardMonitorService.class)) {
             stopService(new Intent(this, ClipboardMonitorService.class));
         }
     }
 
-   public void startServices() {
+    public void startServices() {
         if (!isMyServiceRunning(ClipboardMonitorService.class)) {
             startService(new Intent(this, ClipboardMonitorService.class));
         }
@@ -197,17 +197,18 @@ public class GlobalHomeActivity extends AppCompatActivity {
         }
     }
 
-    void setUpIntent(){
+    void setUpIntent() {
         Intent intent = getIntent();
-        FirebaseFileHandler.sendIntentHandler(intent);
+        FirebaseFileHandler.getINSTANCE().sendIntentHandler(getApplicationContext(), intent);
+        //FirebaseFileHandler.gsendIntentHandler(getApplicationContext(), intent);
     }
 
-    void setUpNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+    void setUpNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(CHANNEL_DESC);
             NotificationManager manager = getSystemService(NotificationManager.class);
-          custom_notification.createNotificationChannel(manager);
+            custom_notification.createNotificationChannel(manager);
         }
     }
 

@@ -121,7 +121,7 @@ public class ClipboardMonitorService extends Service {
 
                 //Same device copy and duplicate copy check.
                 if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
-                     return;
+                     //return;
                 }
                 if (val.isText()) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
