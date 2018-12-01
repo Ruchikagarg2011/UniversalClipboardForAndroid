@@ -33,17 +33,17 @@
             android:name=".GlobalHomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="image/*" />
-                <data android:mimeType="application/pdf" />
-                <data android:mimeType="audio/*" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter>-->
+                 <data android:mimeType="image/*" />
+                 <data android:mimeType="application/pdf" />
+                 <data android:mimeType="audio/*" />
+                 <data android:mimeType="image/*" />
+                 <data android:mimeType="video/*" />
+             </intent-filter>-->
         </activity>
 
         <meta-data

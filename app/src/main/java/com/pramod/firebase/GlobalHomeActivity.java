@@ -39,7 +39,6 @@ import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.services.DeviceMonitorService;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
-import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 import com.ruchika.device.DeviceActivity;
 import com.shweta.shareFile.FirebaseFileHandler;
@@ -56,7 +55,6 @@ public class GlobalHomeActivity extends AppCompatActivity {
     public static final String CHANNEL_NAME = "Notification";
     public static final String CHANNEL_DESC = "Notification";*/
     private static  int STORAGE_PERMISSION_CODE = 1;
-    public static final String CHANNEL_DESC = "Notification";
 
 
     @Override
@@ -212,7 +210,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
             NotificationManager manager = getSystemService(NotificationManager.class);
           custom_notification.createNotificationChannel(manager);
         }
-    }*/
+    }
 
     /*public void seekWritePermission(){
         if (ContextCompat.checkSelfPermission(GlobalHomeActivity.this,
