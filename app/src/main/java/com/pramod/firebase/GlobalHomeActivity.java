@@ -135,7 +135,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
 
     void logoutUser() {
-        RDBHandler.getInstance().delete(KeyStore.getDevicesKeyForCurrentDevice());
+        RDBHandler.getInstance().delete(KeyStore.getDevicesKeyForCurrentDevice(getContentResolver()));
         FirebaseAuth.getInstance().signOut();
         navigateLoginPage();
     }

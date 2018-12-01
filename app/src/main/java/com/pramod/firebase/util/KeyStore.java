@@ -26,8 +26,8 @@ public class KeyStore {
         return "devices/" + getCurrentUser();
     }
 
-    public static String getDevicesKeyForCurrentDevice() {
-        String device = null;
+    public static String getDevicesKeyForCurrentDevice(ContentResolver cv) {
+        String device = getDeviceId(cv);
         return "devices/" + getCurrentUser() + "/" + device;
     }
 
@@ -52,7 +52,7 @@ public class KeyStore {
     }
 
     public static String getDeviceId(ContentResolver cv) {
-        return Settings.Secure.getString(cv,Settings.Secure.ANDROID_ID);
+        return Settings.Secure.getString(cv, Settings.Secure.ANDROID_ID);
     }
 
 
