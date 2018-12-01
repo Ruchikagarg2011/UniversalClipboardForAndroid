@@ -199,7 +199,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
     void setUpIntent() {
         Intent intent = getIntent();
-        FirebaseFileHandler.getINSTANCE().sendIntentHandler(getApplicationContext(), intent);
+       FirebaseFileHandler.getINSTANCE().sendIntentHandler(getApplicationContext(), intent);
         //FirebaseFileHandler.gsendIntentHandler(getApplicationContext(), intent);
     }
 

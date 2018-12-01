@@ -54,14 +54,6 @@ public class ClipboardDetails extends Fragment{
     }
 
     private static String key = KeyStore.getClipboardHistoryKeyForUser();
-   /* void setupElements() {
-        ClipHistoryStore clipHistoryStore = new ClipHistoryStore();
-        ClipHistory clipHistory = new ClipHistory("Sumsung","abcd","text",Calendar.getInstance().getTime().toString());
-        ClipHistory clipHistory2 = new ClipHistory("OnePlus","helloWorld","text",Calendar.getInstance().getTime().toString());
-        clipHistoryStore.addClipHistory(clipHistory);
-        clipHistoryStore.addClipHistory(clipHistory2);
-        RDBHandler.getInstance().write(key, clipHistoryStore.getClipContents());
-    }*/
 
     void getElements(){
         DatabaseReference dbReference = fdb.getReference(key);
