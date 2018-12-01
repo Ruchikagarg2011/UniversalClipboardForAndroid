@@ -3,6 +3,7 @@ package com.pramod.firebase;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -172,6 +173,11 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    public  String getDeviceId(){
+        String androidId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+        return androidId;
+    }
+
     //Common method to handle signin result.
     void handleLoginResult(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
@@ -179,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice();
+            DeviceStore.getInstance().storeCurrentDevice(getDeviceId());
         } else {
             // If sign in fails, display a message to the user.
             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -224,7 +230,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice();
+            DeviceStore.getInstance().storeCurrentDevice(getDeviceId());
         } else {
             // If sign up fails, display a message to the user.
             Log.w(TAG, "signUpWithEmail:failure", task.getException());

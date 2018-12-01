@@ -21,7 +21,7 @@ public class DeviceStore {
     }
 
     public void addDevice(Device device) {
-        map.put(device.getDeviceName(), device);
+        map.put(device.getDeviceId(), device);
     }
 
     public static DeviceStore fromObject(Object obj) {
@@ -36,10 +36,10 @@ public class DeviceStore {
         return store;
     }
 
-    public void storeCurrentDevice() {
-        Device device = new Device(KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
+    public void storeCurrentDevice(String deviceId) {
+        Device device = new Device(deviceId, KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
         addDevice(device);
-        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(KeyStore.getDeviceName()), device);
+        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(deviceId), device);
     }
 
 }

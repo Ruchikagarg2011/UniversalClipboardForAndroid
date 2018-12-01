@@ -29,6 +29,8 @@
             android:textStyle="bold"
             android:textSize="15dp"
             android:layout_toRightOf="@id/device_image"
+            android:onClick="onClick"
+            android:clickable="true"
             app:autoSizeTextType="uniform"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeMaxTextSize="100sp" />

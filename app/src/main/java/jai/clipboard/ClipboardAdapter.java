@@ -41,6 +41,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
     int layoutId;
     ArrayList<ClipHistory> clipContents = new ArrayList<ClipHistory>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
     private static String key = KeyStore.getClipboardHistoryKeyForUser();
 
     public ClipboardAdapter(Activity context, int layoutId, ArrayList<ClipHistory> clipContents) {
@@ -87,7 +88,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             lp.addRule(RelativeLayout.BELOW, R.id.device_title);
             clip_content_img.setLayoutParams(lp);
 
-            FirebaseStorage storage = FirebaseStorage.getInstance();
+
             StorageReference storageRef = storage.getReferenceFromUrl(clipDetails.getClipContent());
 
             try {
@@ -130,11 +131,8 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                         String mapKey = clipHistory.getTimestamp();
                         map.remove(mapKey);
                         clipContents.remove(position);
-
-                        if (clipHistory.getMessageType().equals("1")) {
-                            DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
-                            dbReference.removeValue();
-                        }
+                        DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                        dbReference.removeValue();
                         notifyDataSetChanged();
                     }
                 });
