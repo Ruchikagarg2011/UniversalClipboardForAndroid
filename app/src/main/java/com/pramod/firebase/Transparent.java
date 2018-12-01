@@ -24,13 +24,14 @@ public class Transparent extends Activity {
         setUpNotificationChannel();
 
     }
-    void setUpIntent(){
+
+    void setUpIntent() {
         Intent intent = getIntent();
-        FirebaseFileHandler.sendIntentHandler(intent);
+        FirebaseFileHandler.getINSTANCE().sendIntentHandler(this, intent);
     }
 
-    void setUpNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+    void setUpNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(CHANNEL_DESC);
             NotificationManager manager = getSystemService(NotificationManager.class);
