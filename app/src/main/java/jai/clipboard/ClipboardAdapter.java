@@ -2,27 +2,22 @@ package jai.clipboard;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -120,23 +115,10 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
         ImageButton del_btn = (ImageButton) row.findViewById(R.id.btn_delete);
 
+        del_btn.setFocusable(false);
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
-                ClipHistory clipHistory = clipContents.get(position);
-                ClipHistoryStore storeObject = new ClipHistoryStore();
-                Map<String, ClipHistory> map = storeObject.getClipContents();
-                String mapKey = clipHistory.getTimestamp();
-                map.remove(mapKey);
-                clipContents.remove(position);
-
-                DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
-                dbReference.removeValue();
-
-                notifyDataSetChanged();*/
-
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Are you sure you want delete?");
@@ -144,7 +126,6 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Toast.makeText(getContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
                         ClipHistory clipHistory = clipContents.get(position);
                         ClipHistoryStore storeObject = new ClipHistoryStore();
                         Map<String, ClipHistory> map = storeObject.getClipContents();
@@ -152,9 +133,10 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
                         map.remove(mapKey);
                         clipContents.remove(position);
 
-                        DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
-                        dbReference.removeValue();
-
+                        if(clipHistory.getMessageType().equals("1")) {
+                            DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                            dbReference.removeValue();
+                        }
                         notifyDataSetChanged();
                     }
                 });

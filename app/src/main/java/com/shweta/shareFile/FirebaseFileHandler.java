@@ -2,7 +2,6 @@ package com.shweta.shareFile;
 
 import android.content.Context;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -25,7 +24,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pramod.firebase.Constants;
-import com.pramod.firebase.GlobalHomeActivity;
 import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.services.BroadcastReceiverService;
 import com.pramod.firebase.services.ClipboardMonitorService;
@@ -47,37 +45,36 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 
-public class FirebaseFileHandler {
+public class FirebaseFileHandler extends AppCompatActivity {
 
-    FirebaseUser user;
-    Uri filePath = null;
+    static FirebaseUser user;
+    static Uri filePath = null;
+    public Context context;
+    public static Intent intent;
 
-    private FirebaseStorage storage;
-
-    private static FirebaseFileHandler INSTANCE = new FirebaseFileHandler();
+    private static FirebaseStorage storage;
 
 
-    public static FirebaseFileHandler getINSTANCE() {
-        return INSTANCE;
+    FirebaseFileHandler() {
+        context = getApplicationContext();
     }
 
-
-    public void sendIntentHandler(Context context, Intent intent) {
+    public static void sendIntentHandler(Intent intent) {
         String action = intent.getAction();
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            handleSendImage(context, intent, type); // Handle single image being sent
+            handleSendImage(intent, type); // Handle single image being sent
         }
     }
 
 
-    public void setupFirebaseStorage() {
+    public static void setupFirebaseStorage() {
         storage = FirebaseStorage.getInstance();
     }
 
 
-    public void handleSendImage(final Context context, final Intent intent, String type) {
+    public static void handleSendImage(Intent intent, String type) {
 
         setupFirebaseStorage();
 
@@ -122,13 +119,13 @@ public class FirebaseFileHandler {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
 
-                        Toast.makeText(context, "Could not download. Please check you storage permission", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "Could not download. Please check you storage permission", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
 
-    public void downloadFile(final Context context, String clipBoardContent) {
+    public static void downloadFile(String clipBoardContent) {
 
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -147,11 +144,10 @@ public class FirebaseFileHandler {
             final File localFile = new File(DOWNLOAD_DIR, fileName);
             localFile.createNewFile();
             storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Log.d(Constants.TAG, "Image downloaded");
-                    Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

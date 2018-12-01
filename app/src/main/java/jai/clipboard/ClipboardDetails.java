@@ -1,6 +1,8 @@
 package jai.clipboard;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -23,10 +25,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.R;
+import com.pramod.firebase.clipboard.ClipboardHandler;
+import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
+import com.shweta.shareFile.FirebaseFileHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,10 +116,27 @@ public class ClipboardDetails extends Fragment{
             adapter = new ClipboardAdapter(getActivity(), R.layout.clipboard_list, clipboard_contents);
             listView = (ListView) view.findViewById(R.id.list_clipboard_contents);
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d("Jai","this is clickable");
+                public boolean onItemLongClick(final AdapterView<?> parent, View view,final int position, long id) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setNeutralButton("Copy Again", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ClipHistory clipHistory = (ClipHistory) parent.getItemAtPosition(position);
+                            if(clipHistory.getMessageType().equals("1")) {
+                                ClipboardHandler.setInClipboard(clipHistory.getClipContent(), getContext());
+                            }else if(clipHistory.getMessageType().equals("2")){
+                                ClipboardMonitorService.saveInFirebase(clipHistory.getClipContent(),"2");
+                            }
+                        }
+
+                    });
+                    builder.show();
+
+                    return true;
                 }
             });
             return view;
