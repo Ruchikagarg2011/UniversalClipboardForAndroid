@@ -20,6 +20,13 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -27,6 +34,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
@@ -63,6 +71,10 @@ public class LoginActivity extends AppCompatActivity {
     CallbackManager callbackManager = CallbackManager.Factory.create();
     private static final String TAG = "PmdLogTag";
 
+    private GoogleApiClient mGoogleApiClient;
+
+    private static final int RC_SIGN_IN = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //Ignore this method call if FB login not needed!
         facebookLogin();
+
+        googleLogin();
 
 
     }
@@ -167,12 +181,12 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Needed for FB Login.
      */
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Pass the activity result back to the Facebook SDK
         callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 
 
     //Common method to handle signin result.
@@ -211,6 +225,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //for sign up
     void signUpEmailPassword(String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -235,5 +250,89 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
+
+    /**
+     * The handler for google Login.
+     * Before this all the steps in the below link needs to be followed .
+     */
+    void googleLogin() {
+
+        SignInButton googleLoginButton = (SignInButton)findViewById(R.id.googleLoginButton);
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(getApplicationContext(), "Unable to sign up using google", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+        googleLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
+
+
+
+
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
+        if (requestCode == RC_SIGN_IN) {
+            //handle google sign in
+           GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+           if(result.isSuccess()){
+               GoogleSignInAccount account = result.getSignInAccount();
+               firebaseAuthWithGoogle(account);
+           }
+           else{
+               //facebook login
+               callbackManager.onActivityResult(requestCode, resultCode, data);
+           }
+        }
+    }
+
+
+    private void signIn() {
+        Intent signInIntent =Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+                            Log.d(Constants.TAG, "signInWithCredential:success");
+                            handleLoginResult(task);
+                            Toast.makeText(getApplicationContext(), "Sign in using google successful", Toast.LENGTH_SHORT).show();
+                        }
+                        if(!task.isSuccessful()){
+                            Log.d(Constants.TAG, "signInWithCredential:success",task.getException());
+                            Toast.makeText(getApplicationContext(), "Unable to sign up using google", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
 }
