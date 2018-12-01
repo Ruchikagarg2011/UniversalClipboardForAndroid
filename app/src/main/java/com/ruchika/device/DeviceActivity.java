@@ -221,11 +221,11 @@ public class DeviceActivity extends Fragment {
                 alertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                String password = input.getText().toString();
-                                if(!password.isEmpty()) {
+                                String newDeviceName = input.getText().toString();
+                                if(!newDeviceName.isEmpty()) {
                                     Device device = (Device)parent.getItemAtPosition(position);
-                                    DatabaseReference dbReference = fdb.getReference(key).child(device.deviceName).child("deviceName");
-                                    dbReference.setValue(password);
+                                    DatabaseReference dbReference = fdb.getReference(key).child(device.deviceId).child("deviceName");
+                                    dbReference.setValue(newDeviceName);
                                     Toast.makeText(getApplicationContext(),"Device Name Changed",Toast.LENGTH_SHORT).show();
                                 }
 //                                if (password.compareTo("") == 0) {
