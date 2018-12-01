@@ -33,16 +33,17 @@
             android:name=".GlobalHomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.SEND" />
 
-                <data android:mimeType="image/*" />
-                <data android:mimeType="application/pdf" />
-                <data android:mimeType="audio/*" />
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter>
+                 <category android:name="android.intent.category.DEFAULT" />
+
+                 <data android:mimeType="image/*" />
+                 <data android:mimeType="application/pdf" />
+                 <data android:mimeType="audio/*" />
+                 <data android:mimeType="image/*" />
+                 <data android:mimeType="video/*" />
+             </intent-filter>-->
         </activity>
 
         <meta-data
@@ -75,12 +76,21 @@
         <!-- </intent-filter> -->
         <!-- </service> -->
 
-        <!-- <receiver android:name=".services.NotificationReceiver">
-             <intent-filter>
-                 <action android:name="button_click"/>
-             </intent-filter>
-         </receiver>
- -->
+        <activity
+            android:name=".Transparent"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
         <receiver android:name=".services.NotificationReceiver" />
 
         <service

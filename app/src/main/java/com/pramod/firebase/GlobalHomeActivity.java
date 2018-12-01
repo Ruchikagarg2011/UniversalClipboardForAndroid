@@ -70,9 +70,9 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
         setupElements();
 
-        setUpIntent();
+       /* setUpIntent();
         setUpNotificationChannel();
-
+*/
         //seekWritePermission();
 
         findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
@@ -93,9 +93,8 @@ public class GlobalHomeActivity extends AppCompatActivity {
                 .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
                     @Override
                     public void onTextInputConfirmed(String text) {
-                        if (text != null && !text.isEmpty()) {
-                            sendText(text);
-                        }
+                        sendText(text);
+                        //
                     }
                 })
                 .setCancelable(true)
@@ -222,7 +221,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
         }
     }
 
-    void setUpIntent() {
+    /*void setUpIntent(){
         Intent intent = getIntent();
         FirebaseFileHandler.getINSTANCE().sendIntentHandler(getApplicationContext(), intent);
         //FirebaseFileHandler.gsendIntentHandler(getApplicationContext(), intent);
