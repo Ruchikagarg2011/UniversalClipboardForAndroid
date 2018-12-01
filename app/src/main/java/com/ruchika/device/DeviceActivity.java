@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,25 +14,18 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.pramod.firebase.R;
 import com.pramod.firebase.storage.Device;
-import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
-import com.pramod.firebase.util.RDBHandler;
-
-import android.support.v4.app.Fragment;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -43,16 +37,16 @@ public class DeviceActivity extends Fragment {
     DeviceCustomAdapter deviceCustomAdapter;
     ArrayList<Device> deviceArray = new ArrayList<Device>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
- //   private static final String key = "devices/" +FirebaseAuth.getInstance().getCurrentUser().getUid();
+    //   private static final String key = "devices/" +FirebaseAuth.getInstance().getCurrentUser().getUid();
     private static final String key = KeyStore.getDevicesKeyForUser();
 
     String value;
-    String deviceName,ipName;
+    String deviceName, ipName;
 
     public DeviceActivity() {
         // Required empty public constructor
-    //    setupElements();
-      //  getElements();
+        //    setupElements();
+        //  getElements();
     }
 
 
@@ -84,14 +78,14 @@ public class DeviceActivity extends Fragment {
 
     } */
 
-    public void childActivity(){
+    public void childActivity() {
         DatabaseReference dbReference = fdb.getReference(key);
         dbReference.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
-            public void  onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)  {
-                Log.d("added",dataSnapshot.getValue().toString());
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("added", dataSnapshot.getValue().toString());
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
-                Log.d("Ruchika",device.getDeviceName());
+                Log.d("Ruchika", device.getDeviceName());
 
 //                for(Device d : deviceArray){
 //                    if(!d.getDeviceId().equals(device.deviceId)){
@@ -114,7 +108,7 @@ public class DeviceActivity extends Fragment {
                         deviceArray.add(new Device(deviceName, ipName));
                     }
 */
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 
@@ -129,10 +123,10 @@ public class DeviceActivity extends Fragment {
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 String deviceId = dataSnapshot.getKey();
                 String state = device.getState();
-                for(Device d : deviceArray){
-                    if(d.getDeviceId().equals(device.getDeviceId())){
+                for (Device d : deviceArray) {
+                    if (d.getDeviceId().equals(device.getDeviceId())) {
                         int index = deviceArray.indexOf(d);
-                        deviceArray.set(index,device);
+                        deviceArray.set(index, device);
                     }
                 }
 //
@@ -164,14 +158,14 @@ public class DeviceActivity extends Fragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.d("deleted",dataSnapshot.getValue().toString());
+                Log.d("deleted", dataSnapshot.getValue().toString());
 
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
                 String deviceId = dataSnapshot.getKey();
-                for(Device d : deviceArray){
-                    if(d.getDeviceId().equals(deviceId)){
+                for (Device d : deviceArray) {
+                    if (d.getDeviceId().equals(deviceId)) {
                         int index = deviceArray.indexOf(d);
-                        Log.d("removed", index+"");
+                        Log.d("removed", index + "");
                         deviceArray.remove(index);
                         break;
                     }
@@ -198,10 +192,10 @@ public class DeviceActivity extends Fragment {
         // Inflate the layout for this fragment
         childActivity();
 
-        View view= inflater.inflate(R.layout.device_list, container, false);
+        View view = inflater.inflate(R.layout.device_list, container, false);
         deviceCustomAdapter = new DeviceCustomAdapter(this.getActivity(), R.layout.device_details, deviceArray);
-        deviceList =(ListView)view.findViewById(R.id.devicelist);
-       // deviceList.setItemsCanFocus(false);
+        deviceList = (ListView) view.findViewById(R.id.devicelist);
+        // deviceList.setItemsCanFocus(false);
         deviceList.setAdapter(deviceCustomAdapter);
         deviceList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -222,11 +216,11 @@ public class DeviceActivity extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 String newDeviceName = input.getText().toString();
-                                if(!newDeviceName.isEmpty()) {
-                                    Device device = (Device)parent.getItemAtPosition(position);
+                                if (!newDeviceName.isEmpty()) {
+                                    Device device = (Device) parent.getItemAtPosition(position);
                                     DatabaseReference dbReference = fdb.getReference(key).child(device.deviceId).child("deviceName");
                                     dbReference.setValue(newDeviceName);
-                                    Toast.makeText(getApplicationContext(),"Device Name Changed",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Device Name Changed", Toast.LENGTH_SHORT).show();
                                 }
 //                                if (password.compareTo("") == 0) {
 //                                        Toast.makeText(getApplicationContext(),

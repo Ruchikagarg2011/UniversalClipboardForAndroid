@@ -12,6 +12,7 @@ import com.jaredrummler.android.device.DeviceName;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.security.Key;
 import java.util.Calendar;
 import java.util.Enumeration;
 
@@ -25,7 +26,8 @@ public class KeyStore {
         return "devices/" + getCurrentUser();
     }
 
-    public static String getDevicesKeyForCurrentDevice(String device) {
+    public static String getDevicesKeyForCurrentDevice() {
+        String device = null;
         return "devices/" + getCurrentUser() + "/" + device;
     }
 
