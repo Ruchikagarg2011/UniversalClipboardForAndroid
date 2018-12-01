@@ -141,7 +141,6 @@ public class FirebaseFileHandler extends AppCompatActivity {
             storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
                     Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {

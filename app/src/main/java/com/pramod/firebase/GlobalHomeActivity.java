@@ -51,9 +51,9 @@ public class GlobalHomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public static int int_items = 2;
-    public static final String CHANNEL_ID = "Notification";
+    /*public static final String CHANNEL_ID = "Notification";
     public static final String CHANNEL_NAME = "Notification";
-    public static final String CHANNEL_DESC = "Notification";
+    public static final String CHANNEL_DESC = "Notification";*/
     private static  int STORAGE_PERMISSION_CODE = 1;
 
 
@@ -77,9 +77,9 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
         setupElements();
 
-        setUpIntent();
+       /* setUpIntent();
         setUpNotificationChannel();
-
+*/
         //seekWritePermission();
 
     }
@@ -197,7 +197,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
         }
     }
 
-    void setUpIntent(){
+    /*void setUpIntent(){
         Intent intent = getIntent();
         FirebaseFileHandler.sendIntentHandler(intent);
     }
@@ -209,7 +209,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
             NotificationManager manager = getSystemService(NotificationManager.class);
           custom_notification.createNotificationChannel(manager);
         }
-    }
+    }*/
 
     /*public void seekWritePermission(){
         if (ContextCompat.checkSelfPermission(GlobalHomeActivity.this,
