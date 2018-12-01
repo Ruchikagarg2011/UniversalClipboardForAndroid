@@ -7,6 +7,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
-    <item name="clipboard_content" type="id"/>
+
+    <item name="clipboard_content" type="id" />
+    <string name="notificationTitle">CloudCopy</string>
+    <string name="notificationMsg">You have a new message</string>
 </resources>

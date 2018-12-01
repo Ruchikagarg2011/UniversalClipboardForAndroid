@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,9 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
-import com.pramod.firebase.util.KeyStore;
-import com.pramod.firebase.util.RDBHandler;
-import com.shweta.shareFile.FirebaseFileHandler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 /**
  * @author Pramod Nanduri
@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button loginBtn;
+    Button signUpBtn;
+    Animation uptodown,downtoup;
 
     //Firebase Auth handler
     FirebaseAuth firebaseAuth;
@@ -79,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         //Ignore this method call if FB login not needed!
         facebookLogin();
 
-       /* setUpIntent();*/
+
 
     }
 
@@ -98,29 +100,16 @@ public class LoginActivity extends AppCompatActivity {
                 loginEmailPassword(email.getText().toString(), password.getText().toString());
             }
         });
-
-    }
-/*
-
-    void setUpIntent(){
-        Intent intent = getIntent();
-        sendIntentHandler(intent);
-    }
-*/
-
-
-    /*public static void sendIntentHandler(Intent intent) {
-        String action = intent.getAction();
-        String type = intent.getType();
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                FirebaseFileHandler.handleSendText(intent); // Handle text being sent
-            } else if (type.startsWith("image/")) {
-                FirebaseFileHandler.handleSendImage(intent); // Handle single image being sent
+        signUpBtn = findViewById(R.id.signUpBtn);
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpEmailPassword(email.getText().toString(), password.getText().toString());
             }
-        }
-    }*/
+        });
+
+    }
+
 
     void setupFireBase() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -224,6 +213,31 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), GlobalHomeActivity.class);
         startActivity(intent);
     }
+
+    void signUpEmailPassword(String email, String password) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                handleSignUpResult(task);
+            }
+        });
+    }
+
+
+    void handleSignUpResult(@NonNull Task<AuthResult> task) {
+        if (task.isSuccessful()) {
+            // Sign up success, update UI with the signed-in user's information
+            Log.d(TAG, "signInWithEmail:success");
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            navigateHomePage();
+            DeviceStore.getInstance().storeCurrentDevice(getDeviceId());
+        } else {
+            // If sign up fails, display a message to the user.
+            Log.w(TAG, "signUpWithEmail:failure", task.getException());
+            Toast.makeText(getApplicationContext(), "Unable to sign up", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
 }

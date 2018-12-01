@@ -96,9 +96,11 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         textIPAddress.setText(device.getIpName());
         //Log.d("currentState",device.getState());
 
-        if (device.getState().equals("0")) {
+       if (device.getState().equals("0")) {
             btnSwitch.setChecked(false);
+
         }
+
      //   details.btnSwitch.setText(device.getState());
 
 //        textDeviceName.setOnClickListener(new View.OnClickListener() {

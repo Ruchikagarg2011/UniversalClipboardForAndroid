@@ -1,26 +1,23 @@
 package jai.clipboard;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,12 +34,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
     Activity context;
     int layoutId;
     ArrayList<ClipHistory> clipContents = new ArrayList<ClipHistory>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
     private static String key = KeyStore.getClipboardHistoryKeyForUser();
 
     public ClipboardAdapter(Activity context, int layoutId, ArrayList<ClipHistory> clipContents) {
@@ -70,7 +69,6 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             clip_content_txt.setId(R.id.clipboard_content);
             clip_content_txt.setTextSize(15);
             clip_content_txt.setText(clipDetails.getClipContent());
-           // clip_content_txt.setAutoSizeTextTypeWithDefaults(clip_content_txt.AUTO_SIZE_TEXT_TYPE_UNIFORM);
 
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400,RelativeLayout.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
@@ -90,7 +88,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             lp.addRule(RelativeLayout.BELOW, R.id.device_title);
             clip_content_img.setLayoutParams(lp);
 
-            FirebaseStorage storage = FirebaseStorage.getInstance();
+
             StorageReference storageRef = storage.getReferenceFromUrl(clipDetails.getClipContent());
 
             try {
@@ -116,21 +114,37 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
         ImageButton del_btn = (ImageButton) row.findViewById(R.id.btn_delete);
 
+        del_btn.setFocusable(false);
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Delete button Clicked", Toast.LENGTH_LONG).show();
-                ClipHistory clipHistory = clipContents.get(position);
-                ClipHistoryStore storeObject = new ClipHistoryStore();
-                Map<String, ClipHistory> map = storeObject.getClipContents();
-                String mapKey = clipHistory.getTimestamp();
-                map.remove(mapKey);
-                clipContents.remove(position);
 
-                DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
-                dbReference.removeValue();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure you want delete?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipHistory clipHistory = clipContents.get(position);
+                        ClipHistoryStore storeObject = new ClipHistoryStore();
+                        Map<String, ClipHistory> map = storeObject.getClipContents();
+                        String mapKey = clipHistory.getTimestamp();
+                        map.remove(mapKey);
+                        clipContents.remove(position);
+                        DatabaseReference dbReference = fdb.getReference(key).child(mapKey);
+                        dbReference.removeValue();
+                        notifyDataSetChanged();
+                    }
+                });
 
-                notifyDataSetChanged();
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "You've changed your mind to delete the clip", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
             }
         });
 
