@@ -37,6 +37,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.services.DeviceMonitorService;
+import com.pramod.firebase.util.KeyStore;
+import com.pramod.firebase.util.RDBHandler;
 import com.ruchika.device.DeviceActivity;
 import com.shweta.shareFile.FirebaseFileHandler;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
@@ -133,6 +135,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
 
     void logoutUser() {
+        RDBHandler.getInstance().delete(KeyStore.getDevicesKeyForCurrentDevice());
         FirebaseAuth.getInstance().signOut();
         navigateLoginPage();
     }
@@ -227,7 +230,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
     void setUpIntent() {
         Intent intent = getIntent();
-       FirebaseFileHandler.getINSTANCE().sendIntentHandler(getApplicationContext(), intent);
+        FirebaseFileHandler.getINSTANCE().sendIntentHandler(getApplicationContext(), intent);
         //FirebaseFileHandler.gsendIntentHandler(getApplicationContext(), intent);
     }
 
