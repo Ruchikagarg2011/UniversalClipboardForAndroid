@@ -39,6 +39,7 @@ import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.services.DeviceMonitorService;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
+import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 import com.ruchika.device.DeviceActivity;
 import com.shweta.shareFile.FirebaseFileHandler;
@@ -55,6 +56,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
     public static final String CHANNEL_NAME = "Notification";
     public static final String CHANNEL_DESC = "Notification";*/
     private static  int STORAGE_PERMISSION_CODE = 1;
+    public static final String CHANNEL_DESC = "Notification";
 
 
     @Override
@@ -105,6 +107,7 @@ public class GlobalHomeActivity extends AppCompatActivity {
 
 
     void logoutUser() {
+        RDBHandler.getInstance().delete(KeyStore.getDevicesKeyForCurrentDevice(getContentResolver()));
         FirebaseAuth.getInstance().signOut();
         navigateLoginPage();
     }
@@ -127,13 +130,13 @@ public class GlobalHomeActivity extends AppCompatActivity {
         startDeviceServices();
     }
 
-  public void stopService() {
+    public void stopService() {
         if (!isMyServiceRunning(ClipboardMonitorService.class)) {
             stopService(new Intent(this, ClipboardMonitorService.class));
         }
     }
 
-   public void startServices() {
+    public void startServices() {
         if (!isMyServiceRunning(ClipboardMonitorService.class)) {
             startService(new Intent(this, ClipboardMonitorService.class));
         }

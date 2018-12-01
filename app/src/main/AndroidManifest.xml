@@ -75,6 +75,7 @@
         <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
         <!-- </intent-filter> -->
         <!-- </service> -->
+
         <activity
             android:name=".Transparent"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
@@ -90,7 +91,6 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
-
         <receiver android:name=".services.NotificationReceiver" />
 
         <service
@@ -102,8 +102,7 @@
             android:exported="false"
             android:label="DeviceMonitor" />
 
-        <activity android:name=".custom_notification" />
-
+        <activity android:name=".custom_notification"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,9 @@
 package com.pramod.firebase.util;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
 
@@ -10,6 +12,7 @@ import com.jaredrummler.android.device.DeviceName;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.security.Key;
 import java.util.Calendar;
 import java.util.Enumeration;
 
@@ -23,9 +26,11 @@ public class KeyStore {
         return "devices/" + getCurrentUser();
     }
 
-    public static String getDevicesKeyForCurrentDevice(String device) {
+    public static String getDevicesKeyForCurrentDevice(ContentResolver cv) {
+        String device = getDeviceId(cv);
         return "devices/" + getCurrentUser() + "/" + device;
     }
+
 
     public static String getClipboardKeyForUser() {
         return "clipboard/" + getCurrentUser();
@@ -47,6 +52,11 @@ public class KeyStore {
         return DeviceName.getDeviceName();
     }
 
+    public static String getDeviceId(ContentResolver cv) {
+        return Settings.Secure.getString(cv, Settings.Secure.ANDROID_ID);
+    }
+
+
     public static String getLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
@@ -64,4 +74,6 @@ public class KeyStore {
         }
         return null;
     }
+
+
 }

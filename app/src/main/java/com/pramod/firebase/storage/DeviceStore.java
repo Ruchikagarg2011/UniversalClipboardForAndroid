@@ -1,5 +1,8 @@
 package com.pramod.firebase.storage;
 
+import android.content.ContentResolver;
+import android.content.Context;
+
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
@@ -21,7 +24,7 @@ public class DeviceStore {
     }
 
     public void addDevice(Device device) {
-        map.put(device.getDeviceName(), device);
+        map.put(device.getDeviceId(), device);
     }
 
     public static DeviceStore fromObject(Object obj) {
@@ -36,10 +39,11 @@ public class DeviceStore {
         return store;
     }
 
-    public void storeCurrentDevice() {
-        Device device = new Device(KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
+    public void storeCurrentDevice(ContentResolver resolver) {
+        String deviceId = KeyStore.getDevicesKeyForCurrentDevice(resolver);
+        Device device = new Device(deviceId, KeyStore.getDeviceName(), KeyStore.getLocalIpAddress());
         addDevice(device);
-        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(KeyStore.getDeviceName()), device);
+        RDBHandler.getInstance().write(KeyStore.getDevicesKeyForCurrentDevice(resolver), device);
     }
 
 }

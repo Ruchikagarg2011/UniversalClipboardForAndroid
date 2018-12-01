@@ -14,11 +14,14 @@ public class RDBHandler {
     }
 
 
-
     public void write(String key, Object value) {
         DatabaseReference dbReference = database.getReference(key);
         dbReference.setValue(value);
+    }
 
+    public void delete(String key) {
+        DatabaseReference dbReference = database.getReference(key);
+        dbReference.removeValue();
     }
 
 }

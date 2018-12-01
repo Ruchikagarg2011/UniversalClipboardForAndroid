@@ -16,8 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.GlobalHomeActivity;
+import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.util.KeyStore;
-import com.ruchika.device.Device;
 
 import java.util.Map;
 
@@ -60,14 +60,14 @@ public class DeviceMonitorService extends Service {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
-                String deviceName = dataSnapshot.getKey();
+                String deviceId = dataSnapshot.getKey();
                 String state = device.getState();
-                if(device.getState().equals("1")  && device.getDeviceName().equals(KeyStore.getDeviceName())) {
+                if(device.getState().equals("1")  && device.getDeviceId().equals(KeyStore.getDeviceId(getContentResolver()))) {
                     if(!isMyServiceRunning(ClipboardMonitorService.class)){
                         startServices();
                     }
                 }
-                else if(device.getState().equals("0") && device.getDeviceName().equals(KeyStore.getDeviceName())) {
+                else if(device.getState().equals("0") && device.getDeviceId().equals(KeyStore.getDeviceId(getContentResolver()))) {
                     if(isMyServiceRunning(ClipboardMonitorService.class)){
                         stopService();
                     }

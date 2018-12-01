@@ -28,17 +28,6 @@
         android:textSize="15dp"
         android:textStyle="bold" />
 
-  <!-- <TextView
-        android:id="@+id/clipboard_content"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="clip content"
-        android:textSize="20dp"
-        android:layout_toRightOf="@+id/img_device"
-        android:layout_below="@+id/device_title"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeMaxTextSize="100sp"/>-->
     <ImageView
         android:id="@+id/img1"
         android:layout_width="wrap_content"
@@ -53,7 +42,7 @@
         android:layout_toRightOf="@+id/device_title"
         android:background="@null"
         android:scaleType="fitEnd"
-        android:src="@drawable/cross"
+        android:src="@drawable/delete_clip"
         android:layout_margin="7dp"
         android:focusable="false"/>
 

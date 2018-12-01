@@ -29,6 +29,8 @@
             android:textStyle="bold"
             android:textSize="15dp"
             android:layout_toRightOf="@id/device_image"
+            android:onClick="onClick"
+            android:clickable="true"
             app:autoSizeTextType="uniform"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeMaxTextSize="100sp" />
@@ -70,8 +72,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:text="Delete"
         android:textColor="#0099CC"
         android:paddingLeft="10dp"

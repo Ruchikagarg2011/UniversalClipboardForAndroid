@@ -3,6 +3,7 @@ package com.pramod.firebase;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +22,11 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +39,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
+import com.pramod.firebase.util.KeyStore;
+
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -62,11 +63,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button loginBtn;
     Button signUpBtn;
-    Animation uptodown,downtoup;
+    Animation uptodown, downtoup;
 
     //Firebase Auth handler
     FirebaseAuth firebaseAuth;
-
 
     //For FB
     CallbackManager callbackManager = CallbackManager.Factory.create();
@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         facebookLogin();
 
         googleLogin();
-
 
 
     }
@@ -164,11 +163,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     /**
      * Once we get valid Auth token from Facebook login,
      * we authenticate firebase login with the fb credentials of the current user.
@@ -195,6 +189,10 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }*/
 
+    public String getDeviceId() {
+        return KeyStore.getDeviceId(this.getContentResolver());
+    }
+
     //Common method to handle signin result.
     void handleLoginResult(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
@@ -202,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice();
+            DeviceStore.getInstance().storeCurrentDevice(getContentResolver());
         } else {
             // If sign in fails, display a message to the user.
             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -248,7 +246,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice();
+            DeviceStore.getInstance().storeCurrentDevice(getContentResolver());
         } else {
             // If sign up fails, display a message to the user.
             Log.w(TAG, "signUpWithEmail:failure", task.getException());
@@ -259,7 +257,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /**
-     * The handler for Facebook Login.
+     * The handler for google Login.
      * Before this all the steps in the below link needs to be followed .
      */
     void googleLogin() {
