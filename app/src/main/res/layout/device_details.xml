@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="20dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center_horizontal"
-    android:background="@null">
+    android:background="@null"
+    android:paddingTop="20dp">
 
     <RelativeLayout
         android:id="@+id/device_details"
@@ -18,34 +18,35 @@
             android:id="@+id/device_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/smartphone"
+            android:background="@null"
             android:padding="10dp"
-            android:background="@null"/>
+            android:src="@drawable/smartphone" />
+
         <TextView
             android:id="@+id/device_name"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Device Name"
-            android:textStyle="bold"
-            android:textSize="15dp"
             android:layout_toRightOf="@id/device_image"
-            android:onClick="onClick"
             android:clickable="true"
-            app:autoSizeTextType="uniform"
+            android:onClick="onClick"
+            android:text="Device Name"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
-            app:autoSizeMaxTextSize="100sp" />
+            app:autoSizeTextType="uniform" />
+
         <TextView
             android:id="@+id/ip_name"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/device_name"
+            android:layout_toRightOf="@id/device_image"
             android:text="IP Name"
             android:textSize="15dp"
-            android:layout_toRightOf="@id/device_image"
-            android:layout_below="@+id/device_name"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
             app:autoSizeMaxTextSize="100sp"
-            />
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeTextType="uniform" />
     </RelativeLayout>
 
 
@@ -53,32 +54,31 @@
         android:id="@+id/btnSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#0099CC"
         android:layout_toRightOf="@+id/device_details"
         android:checked="true"
+        android:textColor="#0099CC"
         android:textOff="OFF"
-        android:textOn="ON"        />
+        android:textOn="ON" />
     <!--<ImageView-->
-        <!--android:id="@+id/delete"-->
-        <!--android:layout_width="40dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:layout_toRightOf="@+id/device_details"-->
-        <!--android:layout_below="@+id/toogle"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:src="@drawable/baseline_delete_black_18dp" />-->
+    <!--android:id="@+id/delete"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_toRightOf="@+id/device_details"-->
+    <!--android:layout_below="@+id/toogle"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:src="@drawable/baseline_delete_black_18dp" />-->
 
     <ImageButton
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="Delete"
-        android:textColor="#0099CC"
-        android:paddingLeft="10dp"
-        android:layout_toRightOf="@+id/device_details"
         android:layout_below="@+id/btnSwitch"
-        android:src="@drawable/bin"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/device_details"
         android:background="@null"
-        />
+        android:paddingLeft="10dp"
+        android:src="@drawable/bin"
+        android:text="Delete"
+        android:textColor="#0099CC" />
 
 </RelativeLayout>
