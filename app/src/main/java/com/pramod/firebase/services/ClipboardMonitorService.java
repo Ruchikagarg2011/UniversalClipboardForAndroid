@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.IBinder;
 
+import android.provider.Settings;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -108,6 +109,8 @@ public class ClipboardMonitorService extends Service {
     public DBEventListener listener = new DBEventListener();
 
     void monitorFirebaseClipboardChanges() {
+
+
         DatabaseReference dbReference = database.getReference(KeyStore.getMainClipKeyForUser());
         dbReference.addValueEventListener(listener);
     }

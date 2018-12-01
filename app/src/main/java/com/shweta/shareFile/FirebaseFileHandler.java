@@ -62,7 +62,7 @@ public class FirebaseFileHandler {
         String ext = null;
 
         if (type.startsWith("image/") == true) {
-            ext = ".png";
+            ext = ".jpg";
         } else if (type.startsWith("application/pdf") == true) {
             ext = ".pdf";
         } else if (type.startsWith("video/") == true) {

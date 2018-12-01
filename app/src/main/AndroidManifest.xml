@@ -36,8 +36,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*"/>
-                <data android:mimeType= "application/pdf" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/pdf" />
                 <data android:mimeType="audio/*" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
@@ -74,12 +75,12 @@
         <!-- </intent-filter> -->
         <!-- </service> -->
 
-       <!-- <receiver android:name=".services.NotificationReceiver">
-            <intent-filter>
-                <action android:name="button_click"/>
-            </intent-filter>
-        </receiver>
--->
+        <!-- <receiver android:name=".services.NotificationReceiver">
+             <intent-filter>
+                 <action android:name="button_click"/>
+             </intent-filter>
+         </receiver>
+ -->
         <receiver android:name=".services.NotificationReceiver" />
 
         <service
