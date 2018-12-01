@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button loginBtn;
     Button signUpBtn;
-    Animation uptodown,downtoup;
+    Animation uptodown, downtoup;
 
     //Firebase Auth handler
     FirebaseAuth firebaseAuth;
@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //Ignore this method call if FB login not needed!
         facebookLogin();
-
 
 
     }
@@ -175,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public String getDeviceId(){
+    public String getDeviceId() {
         return KeyStore.getDeviceId(this.getContentResolver());
     }
 
@@ -186,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice(getDeviceId());
+            DeviceStore.getInstance().storeCurrentDevice(getContentResolver());
         } else {
             // If sign in fails, display a message to the user.
             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -231,14 +230,13 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "signInWithEmail:success");
             FirebaseUser user = firebaseAuth.getCurrentUser();
             navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice(getDeviceId());
+            DeviceStore.getInstance().storeCurrentDevice(getContentResolver());
         } else {
             // If sign up fails, display a message to the user.
             Log.w(TAG, "signUpWithEmail:failure", task.getException());
             Toast.makeText(getApplicationContext(), "Unable to sign up", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 }

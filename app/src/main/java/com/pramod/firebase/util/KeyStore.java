@@ -31,6 +31,7 @@ public class KeyStore {
         return "devices/" + getCurrentUser() + "/" + device;
     }
 
+
     public static String getClipboardKeyForUser() {
         return "clipboard/" + getCurrentUser();
     }
