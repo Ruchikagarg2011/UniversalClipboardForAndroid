@@ -2,6 +2,7 @@ package com.pramod.firebase.util;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
 
@@ -47,6 +48,8 @@ public class KeyStore {
         return DeviceName.getDeviceName();
     }
 
+
+
     public static String getLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
@@ -64,4 +67,6 @@ public class KeyStore {
         }
         return null;
     }
+
+
 }

@@ -10,6 +10,7 @@ public class BroadcastReceiverService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         context.startService(new Intent(context, ClipboardMonitorService.class));
+        context.startService(new Intent(context,DeviceMonitorService.class));
         Log.i(this.getClass().getName(), "ReStarted ClipboardMonitorService!");
     }
 }

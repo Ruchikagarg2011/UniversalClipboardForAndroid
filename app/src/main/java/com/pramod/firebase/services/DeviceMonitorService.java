@@ -16,8 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.GlobalHomeActivity;
+import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.util.KeyStore;
-import com.ruchika.device.Device;
 
 import java.util.Map;
 
