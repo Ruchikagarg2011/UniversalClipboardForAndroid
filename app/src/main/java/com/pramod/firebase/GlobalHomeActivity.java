@@ -93,8 +93,9 @@ public class GlobalHomeActivity extends AppCompatActivity {
                 .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
                     @Override
                     public void onTextInputConfirmed(String text) {
-                        sendText(text);
-                        //
+                        if (text != null && !text.isEmpty()) {
+                            sendText(text);
+                        }
                     }
                 })
                 .setCancelable(true)
