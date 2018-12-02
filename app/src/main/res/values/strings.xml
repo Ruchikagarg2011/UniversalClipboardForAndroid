@@ -11,4 +11,9 @@
     <item name="clipboard_content" type="id" />
     <string name="notificationTitle">CloudCopy</string>
     <string name="notificationMsg">You have a new message</string>
+
+    <array name="menuOptions">
+        <item>Cloud Copy</item>
+        <item>Settings</item>
+    </array>
 </resources>

@@ -221,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
      * Method to navigate to Home Page after successful login.
      */
     void navigateHomePage() {
-        Intent intent = new Intent(getApplicationContext(), GlobalHomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainHomeActivity.class);
         startActivity(intent);
     }
 
