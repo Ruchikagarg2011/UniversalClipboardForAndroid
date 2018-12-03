@@ -5,16 +5,18 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.view.View;
 import com.shweta.shareFile.FirebaseFileHandler;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+
 
 public class Transparent extends Activity {
 
     public static final String CHANNEL_ID = "Notification";
     public static final String CHANNEL_NAME = "Notification";
     public static final String CHANNEL_DESC = "Notification";
+    public static Transparent instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,21 @@ public class Transparent extends Activity {
         setContentView(R.layout.activity_transparent);
         setUpIntent();
         setUpNotificationChannel();
-
+        instance = this;
+        
+        new LovelyStandardDialog(this,R.style.EditTextTintTheme)
+                .setTopColorRes(R.color.teal)
+                .setTitle("Share to Cloud Copy")
+                .setMessage("Sharing....")
+                .setIcon(R.drawable.ic_star_border_white_36dp)
+                .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       Transparent.instance.finish();
+                    }
+                })
+                .setCancelable(true)
+                .show();
     }
 
     void setUpIntent() {
