@@ -120,7 +120,7 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want delete?");
+                builder.setMessage("Are you sure you want to delete?");
                 builder.setCancelable(false);
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override

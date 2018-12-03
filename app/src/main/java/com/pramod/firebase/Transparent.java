@@ -28,7 +28,7 @@ public class Transparent extends Activity {
         
         new LovelyStandardDialog(this,R.style.EditTextTintTheme)
                 .setTopColorRes(R.color.teal)
-                .setTitle("Share to Cloud Copy")
+                .setTitle("Share to Clip It")
                 .setMessage("Sharing....")
                 .setIcon(R.drawable.ic_star_border_white_36dp)
                 .setPositiveButton(android.R.string.ok, new View.OnClickListener() {

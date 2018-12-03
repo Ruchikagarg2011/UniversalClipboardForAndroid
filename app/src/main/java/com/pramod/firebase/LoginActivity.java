@@ -145,8 +145,9 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         signUpBtn = findViewById(R.id.signUpBtn);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                signUpEmailPassword(email.getText().toString(), password.getText().toString());
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), SignUp.class);
+                view.getContext().startActivity(intent);
             }
         });
 
@@ -250,31 +251,6 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
     void navigateHomePage() {
         Intent intent = new Intent(getApplicationContext(), MainHomeActivity.class);
         startActivity(intent);
-    }
-
-    //for sign up
-    void signUpEmailPassword(String email, String password) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                handleSignUpResult(task);
-            }
-        });
-    }
-
-
-    void handleSignUpResult(@NonNull Task<AuthResult> task) {
-        if (task.isSuccessful()) {
-            // Sign up success, update UI with the signed-in user's information
-            Log.d(TAG, "signInWithEmail:success");
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            navigateHomePage();
-            DeviceStore.getInstance().storeCurrentDevice(getContentResolver());
-        } else {
-            // If sign up fails, display a message to the user.
-            Log.w(TAG, "signUpWithEmail:failure", task.getException());
-            Toast.makeText(getApplicationContext(), "Unable to sign up", Toast.LENGTH_SHORT).show();
-        }
     }
 
 

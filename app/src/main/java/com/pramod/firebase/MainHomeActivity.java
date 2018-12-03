@@ -87,7 +87,7 @@ public class MainHomeActivity extends AppCompatActivity  implements DuoMenuView.
 
     @Override
     public void onHeaderClicked() {
-        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
     }
 
     private void goToFragment(Fragment fragment, boolean addToBackStack) {

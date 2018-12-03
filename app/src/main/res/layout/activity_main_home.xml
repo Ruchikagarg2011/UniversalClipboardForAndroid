@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <nl.psdcompany.duonavigationdrawer.views.DuoMenuView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,6 +16,7 @@
         android:tag="@string/tag_menu"
         app:header="@layout/layout_header"
         app:footer="@layout/layout_footer" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
