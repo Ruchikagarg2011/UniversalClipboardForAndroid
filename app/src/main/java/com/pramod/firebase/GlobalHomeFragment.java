@@ -68,6 +68,13 @@ public class GlobalHomeFragment extends Fragment {
             }
         });
 
+//        getActivity().findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                handleSendButton();
+//            }
+//        });
+
         return v;
     }
 
@@ -80,12 +87,6 @@ public class GlobalHomeFragment extends Fragment {
             }
         });
 
-        getActivity().findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleSendButton();
-            }
-        });
 
 
         startServices();

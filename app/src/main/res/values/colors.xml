@@ -15,4 +15,8 @@
 
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#727272</color>
+
+    <color name="secondaryColor">#005f76</color>
+
+    <color name="lightgrey">#e7ebeb</color>
 </resources>
