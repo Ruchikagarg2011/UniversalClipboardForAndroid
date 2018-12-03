@@ -17,14 +17,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.services.DeviceMonitorService;
 import com.ruchika.device.DeviceActivity;
+import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import jai.clipboard.ClipboardDetails;
 
@@ -77,8 +80,39 @@ public class GlobalHomeFragment extends Fragment {
             }
         });
 
+        getActivity().findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSendButton();
+            }
+        });
+
+
         startServices();
         startDeviceServices();
+    }
+
+    void handleSendButton() {
+        new LovelyTextInputDialog(getContext(), R.style.EditTextTintTheme)
+                .setTopColorRes(R.color.teal)
+                .setTitle("Quick Send content to other devices")
+                .setMessage("Share content with all connected devices with a single go. Enter the text you want to send here. ")
+                .setIcon(R.drawable.ic_star_border_white_36dp)
+                .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
+                    @Override
+                    public void onTextInputConfirmed(String text) {
+                        if (text != null && !text.isEmpty()) {
+                            sendText(text);
+                        }
+                    }
+                })
+                .setCancelable(true)
+                .show();
+    }
+
+    void sendText(String text) {
+        ClipboardHandler.setInClipboard(text, getContext());
+        Toast.makeText(getContext(), "Sent Data to all devices!", Toast.LENGTH_SHORT).show();
     }
 
     public void stopService() {
@@ -114,7 +148,7 @@ public class GlobalHomeFragment extends Fragment {
     private class MyAdapter extends FragmentPagerAdapter {
 
 
-        MyAdapter( FragmentManager fm) {
+        MyAdapter(FragmentManager fm) {
             super(fm);
 
         }
@@ -140,7 +174,8 @@ public class GlobalHomeFragment extends Fragment {
         }
 
         /**
-         * This method returns the title of the tab according to the position.*/
+         * This method returns the title of the tab according to the position.
+         */
 
         @Override
         public CharSequence getPageTitle(int position) {
