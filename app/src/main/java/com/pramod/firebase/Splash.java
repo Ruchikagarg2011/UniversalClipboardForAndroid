@@ -7,6 +7,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Splash extends Activity {
 
     @Override
@@ -14,11 +16,11 @@ public class Splash extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         final ImageView imgView = (ImageView) findViewById(R.id.imageView);
-        Animation aniRotate = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.clockwise);
+        Animation aniRotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.clockwise);
         imgView.startAnimation(aniRotate);
-       //final Animation fade_an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.abc_fade_out);
+        //final Animation fade_an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.abc_fade_out);
 
-        imgView.startAnimation(aniRotate)   ;
+        imgView.startAnimation(aniRotate);
         aniRotate.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -27,7 +29,7 @@ public class Splash extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-               // imgView.startAnimation(fade_an);
+                // imgView.startAnimation(fade_an);
                 finish();
                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                 startActivity(intent);
@@ -38,6 +40,15 @@ public class Splash extends Activity {
 
             }
         });
+
+        setupFireBase();
+    }
+
+    FirebaseAuth firebaseAuth;
+
+    void setupFireBase() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance();
     }
 
 
