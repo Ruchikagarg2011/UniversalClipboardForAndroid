@@ -101,15 +101,13 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         fadeIn.setDuration(1000);
         app_name.startAnimation(fadeIn);
 
-        loginPage = (LinearLayout)findViewById(R.id.loginPage);
+        loginPage = (LinearLayout) findViewById(R.id.loginPage);
         Animation fadeIn_login = new AlphaAnimation(0, 1);
         fadeIn_login.setStartOffset(1000);
         fadeIn_login.setDuration(1000);
         loginPage.startAnimation(fadeIn);
 
-        //Firebase init settings.
         setupFireBase();
-
         if (firebaseAuth.getCurrentUser() != null) {
             navigateHomePage();
             this.finish();
@@ -125,6 +123,11 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
         googleLogin();
 
 
+    }
+
+    void setupFireBase() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance();
     }
 
     /**
@@ -153,10 +156,6 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
 
     }
 
-
-    void setupFireBase() {
-        firebaseAuth = FirebaseAuth.getInstance();
-    }
 
     /**
      * The handler for Facebook Login.
