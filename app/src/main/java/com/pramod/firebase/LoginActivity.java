@@ -260,8 +260,6 @@ public class LoginActivity extends AppCompatActivity {
     void googleLogin() {
 
         GoogleSignInButton googleLoginButton = (GoogleSignInButton)findViewById(R.id.googleLoginButton);
-
-        //googleLoginButton.setSize(SignInButton.SIZE_ICON_ONLY);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
