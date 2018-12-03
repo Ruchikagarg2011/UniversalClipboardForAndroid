@@ -69,7 +69,6 @@ public class MainHomeActivity extends AppCompatActivity  implements DuoMenuView.
 
     private void handleMenu() {
         mMenuAdapter = new MenuAdapter(mTitles);
-
         mViewHolder.mDuoMenuView.setOnMenuClickListener(this);
         mViewHolder.mDuoMenuView.setAdapter(mMenuAdapter);
     }
@@ -98,9 +97,7 @@ public class MainHomeActivity extends AppCompatActivity  implements DuoMenuView.
             transaction.addToBackStack(null);
         }
 
-
         transaction.replace(R.id.container, fragment).commit();
-
 
     }
 
