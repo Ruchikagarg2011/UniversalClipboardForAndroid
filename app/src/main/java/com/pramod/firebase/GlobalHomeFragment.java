@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,15 +18,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.services.DeviceMonitorService;
+import com.pramod.firebase.util.KeyStore;
+import com.pramod.firebase.util.RDBHandler;
 import com.ruchika.device.DeviceActivity;
 import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
@@ -39,6 +44,7 @@ public class GlobalHomeFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private FloatingActionButton btnShare;
     public static int int_items = 2;
     private static int STORAGE_PERMISSION_CODE = 1;
 
@@ -57,6 +63,7 @@ public class GlobalHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_global_home, container, false);
+        btnShare = (FloatingActionButton) v.findViewById(R.id.btnShare);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         viewPager = (ViewPager) v.findViewById(R.id.view_pager);
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
@@ -67,9 +74,19 @@ public class GlobalHomeFragment extends Fragment {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleSendButton();
+            }
+        });
+
+
 
         return v;
     }
+
+
 
     void setupElements() {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -80,12 +97,6 @@ public class GlobalHomeFragment extends Fragment {
             }
         });
 
-        getActivity().findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleSendButton();
-            }
-        });
 
 
         startServices();
@@ -109,6 +120,8 @@ public class GlobalHomeFragment extends Fragment {
                 .setCancelable(true)
                 .show();
     }
+
+
 
     void sendText(String text) {
         ClipboardHandler.setInClipboard(text, getContext());
