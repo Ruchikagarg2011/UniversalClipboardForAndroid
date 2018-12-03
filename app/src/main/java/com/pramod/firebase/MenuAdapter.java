@@ -1,5 +1,6 @@
 package com.pramod.firebase;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -45,10 +46,10 @@ public class MenuAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final String option = mOptions.get(position);
-
         // Using the DuoOptionView to easily recreate the demo
         final DuoOptionView optionView;
         if (convertView == null) {
@@ -56,10 +57,8 @@ public class MenuAdapter extends BaseAdapter {
         } else {
             optionView = (DuoOptionView) convertView;
         }
-
         // Using the DuoOptionView's default selectors
         optionView.bind(option, null, null);
-
         // Adding the views to an array list to handle view selection
         mOptionViews.add(optionView);
 

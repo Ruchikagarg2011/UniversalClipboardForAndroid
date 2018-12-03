@@ -91,7 +91,7 @@ public class custom_notification extends AppCompatActivity {
                 new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setContentTitle(NotificationTITLE)
                         .setColor(Color.BLUE)
-                        .setSmallIcon(R.drawable.yin)
+                        .setSmallIcon(R.drawable.app_icon_sm)
                         .setContentText(NotificationMSG)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .addAction(R.drawable.download_icon, "Download", downloadPendingIntent)

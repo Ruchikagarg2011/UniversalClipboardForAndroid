@@ -9,9 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -57,14 +61,18 @@ import android.view.animation.AnimationUtils;
  * Realtime DB Vs Cloudstore.
  * https://firebase.google.com/docs/database/rtdb-vs-firestore?authuser=0
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Animation.AnimationListener {
 
     EditText email;
     EditText password;
     Button loginBtn;
     Button signUpBtn;
     Animation uptodown, downtoup;
-
+    TextView app_name;
+    ImageView logo;
+    Animation animMoveToTop, animMoveToBottom;
+    LinearLayout loginPage;
+    Animation animLoginPage;
     //Firebase Auth handler
     FirebaseAuth firebaseAuth;
 
@@ -80,6 +88,24 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        logo = (ImageView) findViewById(R.id.logo);
+        logo.setVisibility(View.VISIBLE);
+        animMoveToTop = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
+        animMoveToTop.setAnimationListener(this);
+        logo.startAnimation(animMoveToTop);
+
+        app_name = (TextView) findViewById(R.id.app_name);
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setStartOffset(1000);
+        fadeIn.setDuration(1000);
+        app_name.startAnimation(fadeIn);
+
+        loginPage = (LinearLayout)findViewById(R.id.loginPage);
+        Animation fadeIn_login = new AlphaAnimation(0, 1);
+        fadeIn_login.setStartOffset(1000);
+        fadeIn_login.setDuration(1000);
+        loginPage.startAnimation(fadeIn);
 
         //Firebase init settings.
         setupFireBase();
@@ -252,14 +278,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * The handler for google Login.
      * Before this all the steps in the below link needs to be followed .
      */
     void googleLogin() {
 
-        GoogleSignInButton googleLoginButton = (GoogleSignInButton)findViewById(R.id.googleLoginButton);
+        GoogleSignInButton googleLoginButton = (GoogleSignInButton) findViewById(R.id.googleLoginButton);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -273,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Unable to sign up using google", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
         googleLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -292,21 +317,20 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
         if (requestCode == RC_SIGN_IN) {
             //handle google sign in
-           GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-           if(result.isSuccess()){
-               GoogleSignInAccount account = result.getSignInAccount();
-               firebaseAuthWithGoogle(account);
-           }
-           else{
-               //facebook login
-               callbackManager.onActivityResult(requestCode, resultCode, data);
-           }
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+            } else {
+                //facebook login
+                callbackManager.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
 
     private void signIn() {
-        Intent signInIntent =Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -319,17 +343,30 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             Log.d(Constants.TAG, "signInWithCredential:success");
                             handleLoginResult(task);
                             Toast.makeText(getApplicationContext(), "Sign in using google successful", Toast.LENGTH_SHORT).show();
                         }
-                        if(!task.isSuccessful()){
-                            Log.d(Constants.TAG, "signInWithCredential:success",task.getException());
+                        if (!task.isSuccessful()) {
+                            Log.d(Constants.TAG, "signInWithCredential:success", task.getException());
                             Toast.makeText(getApplicationContext(), "Unable to sign up using google", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
 }

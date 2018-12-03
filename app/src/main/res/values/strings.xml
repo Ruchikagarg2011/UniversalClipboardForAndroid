@@ -13,7 +13,7 @@
     <string name="notificationMsg">You have a new message</string>
 
     <array name="menuOptions">
-        <item>Cloud Copy</item>
+        <item>Clip It</item>
         <item>Settings</item>
     </array>
 </resources>

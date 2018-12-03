@@ -1,10 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-
-    android:layout_height="match_parent" android:paddingLeft="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp" tools:context=".Splash">
+    android:paddingBottom="16dp"
+    android:background="@drawable/bg_gradient"
+    tools:context=".Splash">
 
 
 
@@ -14,7 +17,7 @@
         android:id="@+id/imageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/yin" />
+        android:src="@drawable/app_icon_lg" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,8 +27,8 @@
         android:layout_marginStart="117dp"
         android:layout_marginTop="41dp"
         android:fontFamily="cursive"
-        android:text="Cloud Copy"
-        android:textColor="@color/colorAccent"
+        android:text="Clip It"
+        android:textColor="@color/white"
         android:textSize="40sp"
         android:textStyle="bold" />
 
