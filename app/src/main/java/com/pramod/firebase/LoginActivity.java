@@ -297,10 +297,11 @@ public class LoginActivity extends AppCompatActivity implements Animation.Animat
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-            } else {
-                //facebook login
-                callbackManager.onActivityResult(requestCode, resultCode, data);
             }
+        }
+        else {
+            //facebook login
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
