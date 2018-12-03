@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "268848901607",
-    "firebase_url": "https://pramodme-41974.firebaseio.com",
-    "project_id": "pramodme-41974",
-    "storage_bucket": "pramodme-41974.appspot.com"
+    "project_number": "419859967406",
+    "firebase_url": "https://clipit-8d4df.firebaseio.com",
+    "project_id": "clipit-8d4df",
+    "storage_bucket": "clipit-8d4df.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:268848901607:android:ce9076b9d2c6d066",
+        "mobilesdk_app_id": "1:419859967406:android:ce9076b9d2c6d066",
         "android_client_info": {
           "package_name": "com.pramod.firebase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "268848901607-k5hj84hmbj8tcntkvn0dfmiqarsdffa6.apps.googleusercontent.com",
+          "client_id": "419859967406-1e4kc8tdavjden6pov1st1q3ep7a6q4i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCHiSWCwxjAE_oFIIIIok9g6wcWsGEKmqU"
+          "current_key": "AIzaSyBIBp8ARNA_WwBfFVH-hBd8Be3czfERvYY"
         }
       ],
       "services": {
