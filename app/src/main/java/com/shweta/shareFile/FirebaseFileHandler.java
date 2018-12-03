@@ -139,7 +139,7 @@ public class FirebaseFileHandler {
                 }
             });
         } catch (IOException e) {
-            Toast.makeText(context, "Storage exception", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Storage permission exception", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
