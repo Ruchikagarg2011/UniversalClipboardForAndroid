@@ -27,7 +27,10 @@ import com.pramod.firebase.util.RDBHandler;
 
 
 import java.security.Key;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 public class ClipboardMonitorService extends Service {
@@ -88,20 +91,33 @@ public class ClipboardMonitorService extends Service {
                 messageType,
                 AndroidUtils.getTimeStamp());*/
 
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format_date = formatter.format(c);
+
+        /*ClipHistory history = new ClipHistory(
+                KeyStore.getDeviceName(),
+                text,
+                messageType,
+                Calendar.getInstance().getTime().toString());*/
+
         ClipHistory history = new ClipHistory(
                 KeyStore.getDeviceName(),
                 text,
                 messageType,
-                Calendar.getInstance().getTime().toString());
+                format_date);
 
         if (!history.equals(lastValue)) {
             lastValue = history;
+            //RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
             RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
-            RDBHandler.getInstance().write(KeyStore.getClipboardKeyForCurrentTime(), history);
+            RDBHandler.getInstance().write(KeyStore.getClipboardHistoryKeyForUser()+format_date, history);
 
             Log.i(Constants.TAG, "Writing to Firebase");
         }
     }
+
+
 
 
     @Override

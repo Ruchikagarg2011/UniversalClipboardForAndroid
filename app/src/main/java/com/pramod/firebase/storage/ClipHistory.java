@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.pramod.firebase.Constants;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -82,10 +83,27 @@ public class ClipHistory implements  Comparable{
     @Override
     public int compareTo(@NonNull Object o) {
         ClipHistory clipHistory = (ClipHistory)o;
+        Date o1_date =new Date();
+        Date o2_date = new Date();
+        try {
+             o1_date = convertToDate(this.getTimestamp());
+             o2_date = convertToDate(((ClipHistory) o).getTimestamp());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if(this.getTimestamp().equals(((ClipHistory) o).getTimestamp())){
             return 0;
         }else{
-            return (((ClipHistory) o).getTimestamp().compareTo(this.getTimestamp()));
+            //return (((ClipHistory) o).getTimestamp().compareTo(this.getTimestamp()));
+            return o2_date.compareTo(o1_date);
         }
+    }
+
+    private Date convertToDate(String o1_date_obj) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String dateString = format.format(new Date());
+        Date  date  = format.parse(o1_date_obj);
+        return date;
     }
 }
