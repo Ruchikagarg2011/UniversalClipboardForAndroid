@@ -110,9 +110,11 @@
             android:label="DeviceMonitor" />
 
         <activity android:name=".custom_notification" />
-        <activity android:name=".MainHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation"></activity>
+        <activity
+            android:name=".MainHomeActivity"
+            android:configChanges="orientation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SignUp"></activity>
     </application>
 
 </manifest>
