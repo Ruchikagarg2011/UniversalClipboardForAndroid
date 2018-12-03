@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_logoutBtn"
-        android:title="Logout"
+        android:title="Log Out"
         app:showAsAction="never" />
 
 

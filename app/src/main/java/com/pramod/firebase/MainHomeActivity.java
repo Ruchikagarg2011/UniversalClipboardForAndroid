@@ -77,6 +77,7 @@ public class MainHomeActivity extends AppCompatActivity  implements DuoMenuView.
     public void onFooterClicked() {
         RDBHandler.getInstance().delete(KeyStore.getDevicesKeyForCurrentDevice(getContentResolver()));
         FirebaseAuth.getInstance().signOut();
+        finish();
         navigateLoginPage();
     }
 
