@@ -163,23 +163,15 @@ public class ClipboardMonitorService extends Service {
                 if (val.isText()) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
                     lastValue = val;
-                } else {
-                    custom_notification.displayNotification(getApplicationContext(), val.getClipContent());
+                }
+                else if (val.getMessageType().equals(Constants.TYPE_IMAGE)) {
+                    custom_notification.displayNotification(getApplicationContext(), val.getClipContent(), val.getMessageType());
                     lastValue = val;
                 }
-                /*else if (val.getMessageType().equals(Constants.TYPE_IMAGE)) {
-
-                                    //String token = task.getResult().getToken();
-                    //sendNotification(val.getClipContent());
-
-                        //should change
-                    custom_notification.displayNotification(getApplicationContext(),val.getClipContent());
+                if (val.getMessageType().equals(Constants.TYPE_PDF)) {
+                    custom_notification.displayNotification(getApplicationContext(), val.getClipContent(), val.getMessageType());
                     lastValue = val;
                 }
-                if (val.getMessageType().equals(Constants.TYPE_FILE)) {
-                    ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
-                    lastValue = val;
-                }*/
 
             }
         }

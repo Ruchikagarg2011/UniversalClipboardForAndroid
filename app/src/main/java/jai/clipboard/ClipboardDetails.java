@@ -29,6 +29,7 @@ import com.pramod.firebase.clipboard.ClipboardHandler;
 import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.ClipHistory;
 import com.pramod.firebase.storage.ClipHistoryStore;
+import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 import com.shweta.shareFile.FirebaseFileHandler;
@@ -80,7 +81,17 @@ public class ClipboardDetails extends Fragment{
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                ClipHistory clipHistory = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
+                String deviceId = dataSnapshot.getKey();
+                for (ClipHistory c : clipboard_contents) {
+                    if (c.getTimestamp().equals(clipHistory.getTimestamp())) {
+                        int index = clipboard_contents.indexOf(c);
+                        Log.d("removed", index + "");
+                        clipboard_contents.remove(index);
+                        break;
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -123,6 +134,9 @@ public class ClipboardDetails extends Fragment{
                             }else if(clipHistory.getMessageType().equals("2")){
                                 ClipboardMonitorService.saveInFirebase(clipHistory.getClipContent(),"2");
                             }
+                            else if(clipHistory.getMessageType().equals("5")){
+                                ClipboardMonitorService.saveInFirebase(clipHistory.getClipContent(),"5");
+                            }
                         }
 
                     });
@@ -133,5 +147,4 @@ public class ClipboardDetails extends Fragment{
             return view;
 
     }
-
 }

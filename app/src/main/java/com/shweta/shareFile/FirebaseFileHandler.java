@@ -45,7 +45,12 @@ public class FirebaseFileHandler {
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            handleSendImage(context, intent, type); // Handle single image being sent
+            if(type.startsWith("image")) {
+                handleSendImage(context, intent, type);
+            }// Handle single image being sent
+            else if(type.startsWith("application/pdf")) {
+                handleSendPdf(context, intent, type);
+            }
         }
     }
 
@@ -58,18 +63,6 @@ public class FirebaseFileHandler {
     public void handleSendImage(final Context context, final Intent intent, String type) {
 
         setupFirebaseStorage();
-
-        String ext = null;
-
-        if (type.startsWith("image/") == true) {
-            ext = ".jpg";
-        } else if (type.startsWith("application/pdf") == true) {
-            ext = ".pdf";
-        } else if (type.startsWith("video/") == true) {
-            ext = ".mov";
-        } else if (type.startsWith("audio/") == true) {
-            ext = ".mp3";
-        }
 
         //get firebase authenticated user
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -134,7 +127,86 @@ public class FirebaseFileHandler {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Log.d(Constants.TAG, "Failed download");
+                    Log.d(Constants.TAG, "Image download failed");
+                    Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (IOException e) {
+            Toast.makeText(context, "Storage permission exception", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public void handleSendPdf(final Context context, final Intent intent, String type) {
+
+        setupFirebaseStorage();
+
+        //get firebase authenticated user
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        filePath = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+        // [START upload_create_reference]
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReference();
+
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+        final StorageReference imageRef = storageRef.child("images/" + fileName);
+        imageRef.putFile(filePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Log.i(Constants.TAG, "onSuccess file upload: uri= " + uri.toString());
+                                ClipboardMonitorService.saveInFirebase(uri.toString(), Constants.TYPE_PDF);
+                            }
+                        });
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+
+                        Toast.makeText(context, "Could not upload Pdf. Please check you storage permission", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+
+    public void downloadPdfFile(final Context context, String clipBoardContent) {
+
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl(clipBoardContent);
+        String DOWNLOAD_DIR = Environment.getExternalStoragePublicDirectory
+                (Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+
+        File rootPath = new File(DOWNLOAD_DIR);
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+
+        try {
+            String fileName = new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+
+            final File localFile = new File(DOWNLOAD_DIR, fileName);
+            localFile.createNewFile();
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(Constants.TAG, "Pdf downloaded");
+                    Toast.makeText(context, "Download complete", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.d(Constants.TAG, "Pdf download failed");
                     Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
                 }
             });
@@ -143,5 +215,4 @@ public class FirebaseFileHandler {
             e.printStackTrace();
         }
     }
-
 }

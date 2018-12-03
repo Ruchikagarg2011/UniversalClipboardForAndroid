@@ -6,9 +6,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
@@ -23,12 +25,17 @@ public class MainHomeActivity extends AppCompatActivity  implements DuoMenuView.
 
     private MenuAdapter mMenuAdapter;
     private ViewHolder mViewHolder;
+    FirebaseAuth fdb = FirebaseAuth.getInstance();
+    TextView txt_usrname;
 
     private ArrayList<String> mTitles = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_home);
+
+        txt_usrname = (TextView)findViewById(R.id.username);
+        txt_usrname.setText(fdb.getCurrentUser().getEmail());
 
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
 

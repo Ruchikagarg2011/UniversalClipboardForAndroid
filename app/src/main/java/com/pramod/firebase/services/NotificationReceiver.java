@@ -32,10 +32,18 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (Constants.DOWNLOAD_ACTION.equals(action)) {
+        if (Constants.DOWNLOAD_ACTION.equals(action) && intent.getStringExtra("type").equals("2")) {
             String uri = intent.getStringExtra("url");
             Log.d("downloading ", uri.toString());
             FirebaseFileHandler.getINSTANCE().downloadFile(context, uri);
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.cancel(intent.getExtras().getInt("id"));
+
+        }
+        if (Constants.DOWNLOAD_ACTION.equals(action) && intent.getStringExtra("type").equals("5")) {
+            String uri = intent.getStringExtra("url");
+            Log.d("downloading ", uri.toString());
+            FirebaseFileHandler.getINSTANCE().downloadPdfFile(context, uri);
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(intent.getExtras().getInt("id"));
 
@@ -50,54 +58,4 @@ public class NotificationReceiver extends BroadcastReceiver {
     }
 
 
-     /*public void seekWritePermission(Context context){
-        if (ContextCompat.checkSelfPermission(context,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "You have already granted this permission!",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            requestStoragePermission(context);
-        }
-    }
-
-
-    public void requestStoragePermission(Context context) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity)getContext(),
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            new AlertDialog.Builder(context)
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is needed because of this and that")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(,
-                                    new String[] {android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-
-        } else {
-            ActivityCompat.requestPermissions(,
-                    new String[] {android.Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-        }
-    }
-
-
-    @Override
-    public  void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == STORAGE_PERMISSION_CODE)  {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 }

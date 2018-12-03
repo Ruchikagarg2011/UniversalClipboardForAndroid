@@ -39,7 +39,7 @@ public class custom_notification extends AppCompatActivity {
 
 
 
-    public static void displayNotification(Context context, String clipContent) {
+    public static void displayNotification(Context context, String clipContent, String msgType) {
 
 /*
 
@@ -67,12 +67,14 @@ public class custom_notification extends AppCompatActivity {
         Intent downloadIntent = new Intent(context, NotificationReceiver.class);
         downloadIntent.putExtra("url",clipContent);
         downloadIntent.putExtra("id", notification_id);
+        downloadIntent.putExtra("type", msgType);
         downloadIntent.setAction( Constants.DOWNLOAD_ACTION);
 
 
         Intent cancelIntent = new Intent(context, NotificationReceiver.class);
         cancelIntent.putExtra("url",clipContent);
         cancelIntent.putExtra("id", notification_id);
+        cancelIntent.putExtra("type", msgType);
         //cancelIntent.putExtra("action", Constants.CANCEL_ACTION);
         cancelIntent.setAction( Constants.CANCEL_ACTION);
         PendingIntent downloadPendingIntent =
@@ -86,7 +88,7 @@ public class custom_notification extends AppCompatActivity {
                 new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setContentTitle(NotificationTITLE)
                         .setColor(Color.BLUE)
-                        .setSmallIcon(R.drawable.app_icon_sm)
+                        .setSmallIcon(R.drawable.app_icon)
                         .setContentText(NotificationMSG)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .addAction(R.drawable.download_icon, "Download", downloadPendingIntent)
