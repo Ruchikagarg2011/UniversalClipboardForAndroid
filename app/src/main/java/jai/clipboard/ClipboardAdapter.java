@@ -31,7 +31,9 @@ import com.pramod.firebase.util.KeyStore;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -93,6 +95,11 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
             try {
                 final File localFile = File.createTempFile("images", "jpg");
+
+                /*String fileName = new SimpleDateFormat("yyyyMMddHHmmss'.pdf'").format(new Date());
+
+                final File localFile = new File(DOWNLOAD_DIR, fileName);
+                localFile.createNewFile();*/
                 storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -110,6 +117,42 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
             single_clip_layout.addView(clip_content_img);
         }
+
+        else if (clipDetails.getMessageType().equals("5")) {
+
+            RelativeLayout single_clip_layout = row.findViewById(R.id.single_clip_layout);
+            final ImageView clip_content_img = new ImageView(this.getContext());
+            clip_content_img.setId(R.id.clipboard_content);
+
+
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400, 200);
+            lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
+            lp.addRule(RelativeLayout.BELOW, R.id.device_title);
+            clip_content_img.setLayoutParams(lp);
+
+
+            StorageReference storageRef = storage.getReferenceFromUrl(clipDetails.getClipContent());
+
+            try {
+                final File localFile = File.createTempFile("images", "pdf");
+                storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getName());
+                        clip_content_img.setImageBitmap(bitmap);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                });
+            } catch (IOException e) {
+            }
+
+            single_clip_layout.addView(clip_content_img);
+        }
+
 
 
         ImageButton del_btn = (ImageButton) row.findViewById(R.id.btn_delete);

@@ -134,6 +134,9 @@ public class ClipboardDetails extends Fragment{
                             }else if(clipHistory.getMessageType().equals("2")){
                                 ClipboardMonitorService.saveInFirebase(clipHistory.getClipContent(),"2");
                             }
+                            else if(clipHistory.getMessageType().equals("5")){
+                                ClipboardMonitorService.saveInFirebase(clipHistory.getClipContent(),"5");
+                            }
                         }
 
                     });
@@ -144,5 +147,4 @@ public class ClipboardDetails extends Fragment{
             return view;
 
     }
-
 }

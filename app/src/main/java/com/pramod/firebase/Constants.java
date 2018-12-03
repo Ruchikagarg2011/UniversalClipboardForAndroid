@@ -14,6 +14,8 @@ public class Constants {
     public static final String TYPE_IMAGE = "2";
     public static final String TYPE_FILE = "3";
     public static final String TYPE_VIDEO = "4";
+    public static final String TYPE_PDF = "5";
+
 
 
 
