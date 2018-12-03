@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,37 +122,30 @@ public class ClipboardAdapter extends ArrayAdapter<ClipHistory> {
 
         else if (clipDetails.getMessageType().equals("5")) {
 
+
             RelativeLayout single_clip_layout = row.findViewById(R.id.single_clip_layout);
             final ImageView clip_content_img = new ImageView(this.getContext());
-            clip_content_img.setId(R.id.clipboard_content);
+            clip_content_img.setId(R.id.img1);
+            clip_content_img.setImageResource(R.drawable.pdf_img);
 
-
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(400, 200);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(50, 50);
             lp.addRule(RelativeLayout.RIGHT_OF, R.id.img_device);
             lp.addRule(RelativeLayout.BELOW, R.id.device_title);
             clip_content_img.setLayoutParams(lp);
 
-
             StorageReference storageRef = storage.getReferenceFromUrl(clipDetails.getClipContent());
+            TextView txt_pdf = new TextView(this.getContext());
+            txt_pdf.setText(storageRef.getName());
 
-            try {
-                final File localFile = File.createTempFile("images", "pdf");
-                storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getName());
-                        clip_content_img.setImageBitmap(bitmap);
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                    }
-                });
-            } catch (IOException e) {
-            }
+            RelativeLayout.LayoutParams lp1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+            lp1.addRule(RelativeLayout.RIGHT_OF, R.id.img1);
+            lp1.addRule(RelativeLayout.BELOW, R.id.device_title);
+            txt_pdf.setTextSize(12);
+            txt_pdf.setTypeface(txt_pdf.getTypeface(),Typeface.BOLD);
+            txt_pdf.setLayoutParams(lp1);
 
             single_clip_layout.addView(clip_content_img);
+            single_clip_layout.addView(txt_pdf);
         }
 
 
