@@ -82,7 +82,6 @@ public class GlobalHomeFragment extends Fragment {
         });
 
 
-
 //        getActivity().findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -94,7 +93,6 @@ public class GlobalHomeFragment extends Fragment {
     }
 
 
-
     void setupElements() {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
@@ -103,7 +101,6 @@ public class GlobalHomeFragment extends Fragment {
                 Log.d(Constants.TAG, token);
             }
         });
-
 
 
         startServices();
@@ -127,7 +124,6 @@ public class GlobalHomeFragment extends Fragment {
                 .setCancelable(true)
                 .show();
     }
-
 
 
     void sendText(String text) {

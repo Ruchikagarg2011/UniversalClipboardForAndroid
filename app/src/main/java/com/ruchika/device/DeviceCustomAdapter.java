@@ -44,7 +44,7 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
 
     ArrayList<Device> data = new ArrayList<Device>();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-  //  private static final String key = "devices/" + FirebaseAuth.getInstance().getUid();
+    //  private static final String key = "devices/" + FirebaseAuth.getInstance().getUid();
     private static final String key = KeyStore.getDevicesKeyForUser();
     TextView textDeviceName;
     TextView textIPAddress;
@@ -60,7 +60,8 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         layoutParams.setMargins(6, 1, 6, 1);
         linearLayout.setLayoutParams(layoutParams);
     }
-    EditText editText = new EditText (getContext());
+
+    EditText editText = new EditText(getContext());
 
 
     public void setEditText(EditText editText) {
@@ -68,8 +69,8 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         editText.setTextSize(15);
         editText.setLayoutParams(layoutParams);
         linearLayout.setGravity(Gravity.CENTER);
-     //   editText.setText("None");
-        linearLayout.addView(editText );
+        //   editText.setText("None");
+        linearLayout.addView(editText);
     }
 
 
@@ -80,29 +81,29 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         this.data = data;
     }
 
-    public View getView(final int position, View view, ViewGroup parent){
+    public View getView(final int position, View view, ViewGroup parent) {
         View row = view;
         Device device = data.get(position);
 
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(layoutResourceId, parent, false);
-            textDeviceName = (TextView) row.findViewById(R.id.device_name);
-            textIPAddress =(TextView) row.findViewById(R.id.ip_name);
-            btnSwitch =(Switch) row.findViewById(R.id.btnSwitch);
-            btnDelete =(ImageButton) row.findViewById(R.id.delete);
-         //   row.setTag(details);
-          //  details =(DeviceDetails)row.getTag();
+        row = inflater.inflate(layoutResourceId, parent, false);
+        textDeviceName = (TextView) row.findViewById(R.id.device_name);
+        textIPAddress = (TextView) row.findViewById(R.id.ip_name);
+        btnSwitch = (Switch) row.findViewById(R.id.btnSwitch);
+        btnDelete = (ImageButton) row.findViewById(R.id.delete);
+        //   row.setTag(details);
+        //  details =(DeviceDetails)row.getTag();
 
 
         textDeviceName.setText(device.getDeviceName());
         textIPAddress.setText(device.getIpName());
         //Log.d("currentState",device.getState());
 
-       if (device.getState().equals("0")) {
+        if (device.getState().equals("0")) {
             btnSwitch.setChecked(false);
         }
 
-     //   details.btnSwitch.setText(device.getState());
+        //   details.btnSwitch.setText(device.getState());
 
 //        textDeviceName.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -165,20 +166,20 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
                     // The toggle is enabled
                     Device device = data.get(position);
                     device.state = Constants.STATE_ON;
-                    Log.d("stateON",device.state);
+                    Log.d("stateON", device.state);
                     String mapKey = device.deviceId;
                     DatabaseReference dbReference = fdb.getReference(key).child(mapKey).child("state");
-                    Log.d("dbreference1",dbReference.toString());
+                    Log.d("dbreference1", dbReference.toString());
                     dbReference.setValue("1");
 
                 } else {
                     // The toggle is disabled
                     Device device = data.get(position);
                     device.state = Constants.STATE_OFF;
-                    Log.d("stateOFF",device.state);
+                    Log.d("stateOFF", device.state);
                     String mapKey = device.deviceId;
                     DatabaseReference dbReference = fdb.getReference(key).child(mapKey).child("state");
-                    Log.d("dbreference2",dbReference.toString());
+                    Log.d("dbreference2", dbReference.toString());
                     dbReference.setValue("0");
 
                 }
@@ -214,9 +215,9 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
                     public void onClick(DialogInterface dialog, int which) {
                         Device device = data.get(position);
                         DeviceStore storeObject = new DeviceStore();
-                        Map<String,Device> map = storeObject.getDevices();
+                        Map<String, Device> map = storeObject.getDevices();
                         String mapKey = device.deviceId;
-                        if(device.getDeviceId().equals(KeyStore.getDeviceId(builder.getContext().getContentResolver()))){
+                        if (device.getDeviceId().equals(KeyStore.getDeviceId(builder.getContext().getContentResolver()))) {
                             FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             context.startActivity(intent);
