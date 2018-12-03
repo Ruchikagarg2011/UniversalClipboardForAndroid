@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.pramod.firebase.Constants;
 import com.pramod.firebase.GlobalHomeActivity;
 import com.pramod.firebase.LoginActivity;
 import com.pramod.firebase.R;
+import com.pramod.firebase.Splash;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
@@ -50,6 +52,7 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
     TextView textIPAddress;
     Switch btnSwitch;
     ImageButton btnDelete;
+    ImageView currentSelected;
 
     LinearLayout linearLayout = new LinearLayout(getContext());
     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -81,6 +84,7 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         this.data = data;
     }
 
+    @Override
     public View getView(final int position, View view, ViewGroup parent) {
         View row = view;
         Device device = data.get(position);
@@ -99,64 +103,65 @@ public class DeviceCustomAdapter extends ArrayAdapter<Device> {
         textIPAddress.setText(device.getIpName());
         //Log.d("currentState",device.getState());
 
-        if (device.getState().equals("0")) {
+        if (Constants.STATE_OFF.equals(device.getState())) {
             btnSwitch.setChecked(false);
+        }
+
+        try {
+            currentSelected = row.findViewById(R.id.currentSelected);
+
+            if (Splash.deviceId.equals(device.getDeviceId())) {
+                currentSelected.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         //   details.btnSwitch.setText(device.getState());
 
-//        textDeviceName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-////                builder.setTitle("Device Name");
-////                builder.setMessage("Enter new device name:");
-////                builder.setView(editText);
-////                builder.show();
-////                String deviceName = editText.getText().toString();
-////                if (!deviceName.isEmpty()){
-////
-////                }
-//
-//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-//                alertDialog.setTitle("Device Name");
-//                alertDialog.setMessage("Enter new device name:");
-//
-//                final EditText input = new EditText(context);
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT,
-//                        LinearLayout.LayoutParams.MATCH_PARENT);
-//                input.setLayoutParams(lp);
-//                alertDialog.setView(input);
-//      //          alertDialog.setIcon(R.drawable.key);
-//                alertDialog.setPositiveButton("YES",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                              String password = input.getText().toString();
-//                              if(!password.isEmpty()) {
-//                                  Device device = data.get(position);
-//                                  DatabaseReference dbReference = fdb.getReference(key).child(device.deviceName).child("deviceName");
-//                                  dbReference.setValue(password);
-//                                  Toast.makeText(getApplicationContext(),"Device Name Changed",Toast.LENGTH_SHORT).show();
-//                              }
-////                                if (password.compareTo("") == 0) {
-////                                        Toast.makeText(getApplicationContext(),
-////                                                "Password Matched", Toast.LENGTH_SHORT).show();
-//
-//                            }
-//                        });
-//
-//                alertDialog.setNegativeButton("NO",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//
-//                alertDialog.show();
-//            }
-//
-//        });
+        textDeviceName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("Device Name");
+                alertDialog.setMessage("Enter new device name:");
+
+                final EditText input = new EditText(context);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String password = input.getText().toString();
+                                if (!password.isEmpty()) {
+
+                                    Device device = data.get(position);
+                                    DatabaseReference dbReference = fdb.getReference(key).child(device.deviceId).child("deviceName");
+                                    dbReference.setValue(password);
+                                    Toast.makeText(getApplicationContext(), "Device Name Changed", Toast.LENGTH_SHORT).show();
+                                }
+//                                if (password.compareTo("") == 0) {
+//                                        Toast.makeText(getApplicationContext(),
+//                                                "Password Matched", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.show();
+            }
+
+        });
 
         btnSwitch.setFocusable(false);
         btnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

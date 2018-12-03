@@ -10,13 +10,18 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
-public class ClipHistory implements  Comparable{
+public class ClipHistory implements Comparable {
 
     String deviceName;
     String clipContent;
     String messageType;
     String timestamp;
+    String deviceId;
 
+
+    public String getDeviceId() {
+        return deviceId;
+    }
 
     public String getTimestamp() {
         return timestamp;
@@ -50,7 +55,8 @@ public class ClipHistory implements  Comparable{
         this.messageType = messageType;
     }
 
-    public ClipHistory(String deviceName, String clipContent, String messageType, String timestamp) {
+    public ClipHistory(String deviceId, String deviceName, String clipContent, String messageType, String timestamp) {
+        this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.clipContent = clipContent;
         this.messageType = messageType;
@@ -62,6 +68,7 @@ public class ClipHistory implements  Comparable{
         clipContent = map.get("clipContent");
         messageType = map.get("messageType");
         timestamp = map.get("timestamp");
+        deviceId = map.get("deviceId");
     }
 
     public boolean isText() {
@@ -82,18 +89,18 @@ public class ClipHistory implements  Comparable{
 
     @Override
     public int compareTo(@NonNull Object o) {
-        ClipHistory clipHistory = (ClipHistory)o;
-        Date o1_date =new Date();
+        ClipHistory clipHistory = (ClipHistory) o;
+        Date o1_date = new Date();
         Date o2_date = new Date();
         try {
-             o1_date = convertToDate(this.getTimestamp());
-             o2_date = convertToDate(((ClipHistory) o).getTimestamp());
+            o1_date = convertToDate(this.getTimestamp());
+            o2_date = convertToDate(((ClipHistory) o).getTimestamp());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(this.getTimestamp().equals(((ClipHistory) o).getTimestamp())){
+        if (this.getTimestamp().equals(((ClipHistory) o).getTimestamp())) {
             return 0;
-        }else{
+        } else {
             //return (((ClipHistory) o).getTimestamp().compareTo(this.getTimestamp()));
             return o2_date.compareTo(o1_date);
         }
@@ -103,7 +110,7 @@ public class ClipHistory implements  Comparable{
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String dateString = format.format(new Date());
-        Date  date  = format.parse(o1_date_obj);
+        Date date = format.parse(o1_date_obj);
         return date;
     }
 }

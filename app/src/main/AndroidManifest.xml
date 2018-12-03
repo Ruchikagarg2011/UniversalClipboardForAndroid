@@ -104,10 +104,10 @@
             android:name=".services.ClipboardMonitorService"
             android:exported="false"
             android:label="ClipboardMonitor" />
-        <service
-            android:name=".services.DeviceMonitorService"
-            android:exported="false"
-            android:label="DeviceMonitor" />
+        <!--<service-->
+            <!--android:name=".services.DeviceMonitorService"-->
+            <!--android:exported="false"-->
+            <!--android:label="DeviceMonitor" />-->
 
         <activity android:name=".custom_notification" />
         <activity

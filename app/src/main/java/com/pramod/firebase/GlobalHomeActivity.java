@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +49,6 @@ public class GlobalHomeActivity extends AppCompatActivity {
     public static final String CHANNEL_NAME = "Notification";
     public static final String CHANNEL_DESC = "Notification";
     private static int STORAGE_PERMISSION_CODE = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

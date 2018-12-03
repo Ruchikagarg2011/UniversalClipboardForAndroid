@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pramod.firebase.R;
 import com.pramod.firebase.storage.Device;
+import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
 
 import java.util.ArrayList;
@@ -83,9 +84,16 @@ public class DeviceActivity extends Fragment {
         dbReference.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                try {
+                    if (getActivity() != null) {
+                        getActivity().findViewById(R.id.spin_kit).setVisibility(View.INVISIBLE);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 Log.d("added", dataSnapshot.getValue().toString());
                 Device device = new Device((Map<String, String>) dataSnapshot.getValue());
-
+                DeviceStore.getInstance().addDevice(device);
 //                for(Device d : deviceArray){
 //                    if(!d.getDeviceId().equals(device.deviceId)){
 //                        deviceArray.add(device);
@@ -110,7 +118,6 @@ public class DeviceActivity extends Fragment {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
 
             }
 
@@ -179,7 +186,7 @@ public class DeviceActivity extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                databaseError.toException().printStackTrace();
             }
         });
     }
@@ -196,10 +203,9 @@ public class DeviceActivity extends Fragment {
         deviceList = (ListView) view.findViewById(R.id.devicelist);
         // deviceList.setItemsCanFocus(false);
         deviceList.setAdapter(deviceCustomAdapter);
-        deviceList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*deviceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setTitle("Device Name");
                 alertDialog.setMessage("Enter new device name:");
@@ -236,6 +242,13 @@ public class DeviceActivity extends Fragment {
                         });
 
                 alertDialog.show();
+
+            }
+        });*/
+
+        deviceList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                 return true;
             }
         });

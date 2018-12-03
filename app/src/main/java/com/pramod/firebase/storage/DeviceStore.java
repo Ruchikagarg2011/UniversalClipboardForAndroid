@@ -3,6 +3,7 @@ package com.pramod.firebase.storage;
 import android.content.ContentResolver;
 import android.content.Context;
 
+import com.pramod.firebase.Splash;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
@@ -25,6 +26,10 @@ public class DeviceStore {
 
     public void addDevice(Device device) {
         map.put(device.getDeviceId(), device);
+    }
+
+    public Device getCurrentDevice() {
+        return map.get(Splash.deviceId);
     }
 
     public static DeviceStore fromObject(Object obj) {

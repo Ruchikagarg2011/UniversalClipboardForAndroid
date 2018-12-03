@@ -94,13 +94,13 @@ public class GlobalHomeFragment extends Fragment {
 
 
     void setupElements() {
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-            @Override
-            public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                String token = task.getResult().getToken();
-                Log.d(Constants.TAG, token);
-            }
-        });
+//        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                String token = task.getResult().getToken();
+//                Log.d(Constants.TAG, token);
+//            }
+//        });
 
 
         startServices();

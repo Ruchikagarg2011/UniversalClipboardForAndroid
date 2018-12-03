@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@null">
@@ -29,6 +30,16 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="43dp"
             android:background="@color/secondaryColor" />
+
+        <ImageView
+            android:id="@+id/currentSelected"
+            android:layout_width="21dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="65dp"
+            android:contentDescription="Cur"
+            android:visibility="invisible"
+            android:src="@drawable/wifi" />
 
     </FrameLayout>
 
@@ -109,11 +120,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ip_name"
+                android:layout_margin="10dp"
                 android:checked="true"
                 android:textColor="#0099CC"
                 android:textOff="OFF"
-                android:textOn="ON"
-                android:layout_margin="10dp"/>
+                android:textOn="ON" />
 
 
             <ImageButton

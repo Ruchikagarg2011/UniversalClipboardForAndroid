@@ -8,8 +8,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.pramod.firebase.util.KeyStore;
 
 public class Splash extends Activity {
+
+    public static String deviceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class Splash extends Activity {
         });
 
         setupFireBase();
+        deviceId = KeyStore.getDeviceId(getApplicationContext().getContentResolver());
     }
 
     FirebaseAuth firebaseAuth;

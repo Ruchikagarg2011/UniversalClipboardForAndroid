@@ -28,7 +28,7 @@ public class DeviceMonitorService extends Service {
 
     @Override
     public void onCreate() {
-        monitorDeviceChanges();
+        //monitorDeviceChanges();
     }
 
     @Override

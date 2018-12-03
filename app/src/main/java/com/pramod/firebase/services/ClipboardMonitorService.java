@@ -1,14 +1,10 @@
 package com.pramod.firebase.services;
 
-import com.pramod.firebase.custom_notification;
-
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.IBinder;
-
-import android.provider.Settings;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,18 +12,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import com.pramod.firebase.Constants;
+import com.pramod.firebase.Splash;
 import com.pramod.firebase.clipboard.ClipboardHandler;
+import com.pramod.firebase.custom_notification;
 import com.pramod.firebase.storage.ClipHistory;
+import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
-import com.pramod.firebase.util.AndroidUtils;
 import com.pramod.firebase.util.KeyStore;
 import com.pramod.firebase.util.RDBHandler;
 
-
 import java.security.Key;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,10 +69,15 @@ public class ClipboardMonitorService extends Service {
          */
         @Override
         public void onPrimaryClipChanged() {
+            Device device = DeviceStore.getInstance().getCurrentDevice();
+
+            if (device == null || Constants.STATE_OFF.equals(device.getState())) {
+                return;
+            }
             ClipData data = clipboardManager.getPrimaryClip();
             if (data != null) {
                 CharSequence clipText = data.getItemAt(0).getText();
-                if(clipText != null) {
+                if (clipText != null) {
                     saveInFirebase(clipText.toString(), Constants.TYPE_TEXT);
                 }
             }
@@ -102,6 +102,7 @@ public class ClipboardMonitorService extends Service {
                 Calendar.getInstance().getTime().toString());*/
 
         ClipHistory history = new ClipHistory(
+                Splash.deviceId,
                 KeyStore.getDeviceName(),
                 text,
                 messageType,
@@ -111,13 +112,11 @@ public class ClipboardMonitorService extends Service {
             lastValue = history;
             //RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
             RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
-            RDBHandler.getInstance().write(KeyStore.getClipboardHistoryKeyForUser()+format_date, history);
+            RDBHandler.getInstance().write(KeyStore.getClipboardHistoryKeyForUser() + format_date, history);
 
             Log.i(Constants.TAG, "Writing to Firebase");
         }
     }
-
-
 
 
     @Override
@@ -150,9 +149,17 @@ public class ClipboardMonitorService extends Service {
                 ClipHistory val = new ClipHistory((Map<String, String>) dataSnapshot.getValue());
 
                 //Same device copy and duplicate copy check.
-                if (val.equals(lastValue) || val.getDeviceName().equals(KeyStore.getDeviceName())) {
+                String deviceId = KeyStore.getDeviceId(getContentResolver());
+                if (val == null || val.equals(lastValue) || (deviceId != null && deviceId.equals(val.getDeviceId()))) {
                     return;
                 }
+
+                Device current = DeviceStore.getInstance().getCurrentDevice();
+
+                if (current == null || Constants.STATE_OFF.equals(current.getState())) {
+                    return;
+                }
+
                 if (val.isText()) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
                     lastValue = val;

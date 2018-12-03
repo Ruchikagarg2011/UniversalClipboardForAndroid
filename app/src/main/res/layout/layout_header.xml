@@ -20,4 +20,5 @@
         android:layout_height="wrap_content"
         android:src="@drawable/app_icon_md"
         android:paddingLeft="60dp"/>
+
 </LinearLayout>
