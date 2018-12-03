@@ -127,7 +127,6 @@ public class ClipboardDetails extends Fragment{
 
                     });
                     builder.show();
-
                     return true;
                 }
             });
