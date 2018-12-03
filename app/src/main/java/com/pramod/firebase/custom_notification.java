@@ -24,10 +24,8 @@ public class custom_notification extends AppCompatActivity {
     public static final String CHANNEL_ID = "Notification";
     public static final String CHANNEL_NAME = "Notification";
     public static final String CHANNEL_DESC = "Notification";
-    private static RemoteViews remoteViews;
     private static int notification_id;
     public static final String NotificationMSG = "Click on download button to download";
-
     public static final String NotificationTITLE = "You have a new item to download";
 
 
@@ -38,9 +36,6 @@ public class custom_notification extends AppCompatActivity {
         setContentView(R.layout.activity_custom_notification);
         //seekDownloadPermission();
     }
-
-
-
 
 
 

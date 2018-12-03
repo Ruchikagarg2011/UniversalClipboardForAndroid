@@ -134,8 +134,8 @@ public class FirebaseFileHandler {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Log.d(Constants.TAG, "Failed image downloaded");
-                    //Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
+                    Log.d(Constants.TAG, "Failed download");
+                    Toast.makeText(context, "Download failed", Toast.LENGTH_LONG).show();
                 }
             });
         } catch (IOException e) {
