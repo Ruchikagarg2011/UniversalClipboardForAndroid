@@ -82,16 +82,23 @@ public class ClipboardMonitorService extends Service {
     }
 
     public static void saveInFirebase(String text, String messageType) {
+       /* ClipHistory history = new ClipHistory(
+                KeyStore.getDeviceName(),
+                text,
+                messageType,
+                AndroidUtils.getTimeStamp());*/
+
         ClipHistory history = new ClipHistory(
                 KeyStore.getDeviceName(),
                 text,
                 messageType,
-                AndroidUtils.getTimeStamp());
+                Calendar.getInstance().getTime().toString());
 
         if (!history.equals(lastValue)) {
             lastValue = history;
             RDBHandler.getInstance().write(KeyStore.getMainClipKeyForUser(), history);
             RDBHandler.getInstance().write(KeyStore.getClipboardKeyForCurrentTime(), history);
+
             Log.i(Constants.TAG, "Writing to Firebase");
         }
     }

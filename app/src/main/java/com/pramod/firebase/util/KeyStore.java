@@ -44,6 +44,10 @@ public class KeyStore {
         return getClipboardHistoryKeyForUser() + "/" + Calendar.getInstance().getTime().toString();
     }
 
+ /*   public static String getClipboardKeyForCurrentTime() {
+        return getClipboardHistoryKeyForUser()  + AndroidUtils.getTimeStamp();
+    }*/
+
     public static String getDeviceName() {
         return DeviceName.getDeviceName();
     }

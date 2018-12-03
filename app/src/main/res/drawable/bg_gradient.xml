@@ -1,11 +1,16 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
+    <!--<gradient
         android:angle="90"
         android:centerX="0.2"
         android:centerY="0.3"
         android:endColor="#159957"
         android:startColor="#155799"
-        android:type="linear" />
+        android:type="linear" />-->
+    <gradient
+        android:startColor="#ff2d9a59"
+        android:centerColor="#ff42959a"
+        android:endColor="#ff23729b"
+        android:angle="135"/>
 </shape>
 
     <!--linear-gradient(120deg,#155799,#159957)-->

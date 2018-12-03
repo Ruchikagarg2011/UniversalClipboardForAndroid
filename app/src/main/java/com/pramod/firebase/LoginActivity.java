@@ -25,7 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
+//import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +39,7 @@ import com.pramod.firebase.services.ClipboardMonitorService;
 import com.pramod.firebase.storage.Device;
 import com.pramod.firebase.storage.DeviceStore;
 import com.pramod.firebase.util.KeyStore;
+import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -258,7 +259,9 @@ public class LoginActivity extends AppCompatActivity {
      */
     void googleLogin() {
 
-        SignInButton googleLoginButton = (SignInButton)findViewById(R.id.googleLoginButton);
+        GoogleSignInButton googleLoginButton = (GoogleSignInButton)findViewById(R.id.googleLoginButton);
+
+        //googleLoginButton.setSize(SignInButton.SIZE_ICON_ONLY);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
