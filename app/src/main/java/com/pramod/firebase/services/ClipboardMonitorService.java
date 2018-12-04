@@ -69,11 +69,11 @@ public class ClipboardMonitorService extends Service {
          */
         @Override
         public void onPrimaryClipChanged() {
-            Device device = DeviceStore.getInstance().getCurrentDevice();
-
-            if (device == null || Constants.STATE_OFF.equals(device.getState())) {
-                return;
-            }
+//            Device device = DeviceStore.getInstance().getCurrentDevice();
+//
+//            if (device == null || Constants.STATE_OFF.equals(device.getState())) {
+//                return;
+//            }
             ClipData data = clipboardManager.getPrimaryClip();
             if (data != null) {
                 CharSequence clipText = data.getItemAt(0).getText();
@@ -154,11 +154,11 @@ public class ClipboardMonitorService extends Service {
                     return;
                 }
 
-                Device current = DeviceStore.getInstance().getCurrentDevice();
-
-                if (current == null || Constants.STATE_OFF.equals(current.getState())) {
-                    return;
-                }
+//                Device current = DeviceStore.getInstance().getCurrentDevice();
+//
+//                if (current == null || Constants.STATE_OFF.equals(current.getState())) {
+//                    return;
+//                }
 
                 if (val.isText()) {
                     ClipboardHandler.setInClipboard(val.getClipContent(), getApplicationContext());
