@@ -125,6 +125,9 @@ public class MainHomeActivity extends AppCompatActivity  implements DuoMenuView.
             case 1:
                 goToFragment(new Settings(), false);
                 break;
+            case 2:
+                goToFragment(new AboutUsFragment(), false);
+                break;
             default:
                 goToFragment(new GlobalHomeFragment(), false);
                 break;

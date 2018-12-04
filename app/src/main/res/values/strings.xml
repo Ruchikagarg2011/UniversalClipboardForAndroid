@@ -15,5 +15,6 @@
     <array name="menuOptions">
         <item>Clip It</item>
         <item>Settings</item>
+        <item>About Us</item>
     </array>
 </resources>

@@ -28,8 +28,8 @@ public class Transparent extends Activity {
         
         new LovelyStandardDialog(this,R.style.EditTextTintTheme)
                 .setTopColorRes(R.color.teal)
-                .setTitle("Share to Clip It")
-                .setMessage("Sharing....")
+                .setTitle("Sharing to Clip It")
+                .setMessage("Uploading....")
                 .setIcon(R.drawable.ic_star_border_white_36dp)
                 .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
                     @Override
