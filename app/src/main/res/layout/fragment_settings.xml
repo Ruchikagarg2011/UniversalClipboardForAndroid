@@ -16,9 +16,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Password" />
+            android:text="Change Password :"
+            android:textSize="24dp"/>
 
         <EditText
+            android:layout_marginTop="20dp"
             android:id="@+id/old_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +36,9 @@
             android:id="@+id/btnChangePass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change" />
+            android:text="Change"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
